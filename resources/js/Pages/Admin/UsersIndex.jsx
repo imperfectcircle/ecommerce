@@ -43,8 +43,8 @@ export default function UsersIndex({ auth, users }) {
                 <p>Lista Utenti</p>
             </div>
 
-            <div className="">
-                <table className="w-full border-separate border-spacing-4">
+            <div className="overflow-x">
+                <table className="w-full border-separate border-spacing-4 overflow-scroll">
                     <thead className="bg-gray-200">
                         <tr className="text-center">
                             <th>Nome</th>
@@ -62,7 +62,7 @@ export default function UsersIndex({ auth, users }) {
                                 <td>{user.role || 'Nessuno'}</td>
                                 <td>{user.formatted_created_at}</td>
                                 {user.id !== auth.user.id ? (
-                                    <div className="space-x-3">
+                                    <div className="flex flex-col space-y-3 md:flex-row md:justify-center md:space-x-3 md:space-y-0">
                                         <Link
                                             className="rounded-lg bg-emerald-500 px-5 py-2 text-white shadow-lg transition-all duration-150 hover:bg-emerald-600"
                                             href={route(
@@ -88,7 +88,7 @@ export default function UsersIndex({ auth, users }) {
                                         </Link>
                                     </div>
                                 ) : (
-                                    <div className="space-x-3">
+                                    <div className="flex flex-col space-y-3 md:flex-row md:justify-center md:space-x-3 md:space-y-0">
                                         <Link
                                             className="cursor-not-allowed rounded-lg bg-emerald-500 px-5 py-2 text-white opacity-50 shadow-lg"
                                             href="#"
