@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests;
 
+use Illuminate\Validation\Rules\Password;
 use Illuminate\Foundation\Http\FormRequest;
 
 class UpdateUserRequest extends FormRequest
@@ -11,7 +12,7 @@ class UpdateUserRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -22,7 +23,26 @@ class UpdateUserRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            'name' => 'required|string|max:20',
+            'email' => 'required|email|unique:users,email,'.$this->id,
+            'password' => [
+                'confirmed',
+                Password::min(8)
+                    ->letters()
+                    ->symbols()
+            ]
+        ];
+    }
+
+    public function messages()
+    {
+        return [
+            'name.required' => 'Il campo Nome Utente è richiesto.',
+            'name.max' => 'Il Nome Utente può avere una lunghezza massima di 20 caratteri.',
+            'email.required' => 'Il campo Email è richiesto.',
+            'email.unique' => 'L\'Indirizzo Email inserito esiste già.',
+            'password.confirmed' => 'Le Password non corrispondono',
+            'password.min' => 'La Password deve contenere almeno 8 caratteri.',
         ];
     }
 }

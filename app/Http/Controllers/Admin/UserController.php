@@ -64,7 +64,7 @@ class UserController extends Controller
      */
     public function edit(User $user)
     {
-        //
+        return Inertia::render('Admin/UserForm', compact('user'));
     }
 
     /**
@@ -72,7 +72,15 @@ class UserController extends Controller
      */
     public function update(UpdateUserRequest $request, User $user)
     {
-        //
+        $data = $request->validated();
+        if (isset($data['password'])) {
+            $data['password'] = bcrypt($data['password']);
+        }
+        
+        $user->update($data);
+        $userName = $user->name;
+
+        return to_route('admin.users.index')->with('message', 'L\'Utente ' .$userName. ' è stato aggiornato con successo.');
     }
 
     /**
