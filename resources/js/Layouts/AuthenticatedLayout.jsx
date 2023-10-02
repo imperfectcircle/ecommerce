@@ -4,6 +4,7 @@ import { GiHamburgerMenu } from 'react-icons/gi';
 import { HiUserCircle } from 'react-icons/hi';
 import { ImSwitch } from 'react-icons/im';
 import { BsFire } from 'react-icons/bs';
+import { AiOutlineUser } from 'react-icons/ai';
 import { useMediaQuery } from 'react-responsive';
 import { usePopUpVisibility } from '@/Hooks/usePopUpVisibility';
 import { AnimatePresence, motion } from 'framer-motion';
@@ -63,18 +64,25 @@ export default function AuthenticatedLayout({ user, children }) {
             </header>
             <section className="h-screen w-full md:grid md:grid-cols-5">
                 <aside className="hidden bg-violet-400 pt-40 text-xl text-white shadow-lg shadow-black md:col-span-1 md:inline-grid">
-                    <div className="sticky top-32 space-y-3">
+                    <div className="sticky top-32 space-y-3 ">
                         <Link
-                            className="flex items-center pl-10"
+                            className="flex items-center pl-10 transition-all duration-150 hover:font-bold"
                             href={route('admin.dashboard')}
                         >
                             <BsFire className="mr-2" />
                             Dashboard
                         </Link>
+                        <Link
+                            className="flex items-center pl-10 transition-all duration-150 hover:font-bold"
+                            href={route('admin.users.index')}
+                        >
+                            <AiOutlineUser className="mr-2" />
+                            Utenti
+                        </Link>
                     </div>
                 </aside>
 
-                <main className="md:col-span-4 ">{children}</main>
+                <main className="p-10 md:col-span-4">{children}</main>
             </section>
 
             {/* Mobile menù */}

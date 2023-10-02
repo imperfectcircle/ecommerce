@@ -6,15 +6,28 @@ use App\Http\Controllers\Controller;
 use App\Models\User;
 use App\Http\Requests\StoreUserRequest;
 use App\Http\Requests\UpdateUserRequest;
-
+use Inertia\Inertia;
 class UserController extends Controller
 {
+    public function __construct()
+    {
+        $this->authorizeResource(User::class, 'user');
+    }
+
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        //
+        $users = User::query()
+            ->orderBy('id', 'desc')
+            ->get()
+            ->map(function ($user) {
+            $user->formatted_created_at = $user->created_at->format('d-m-Y H:i:s');
+            return $user;
+        });
+
+        return Inertia::render('Admin/UsersIndex', compact('users'));
     }
 
     /**
@@ -22,7 +35,7 @@ class UserController extends Controller
      */
     public function create()
     {
-        //
+        return Inertia::render('Admin/UserForm');
     }
 
     /**
@@ -30,7 +43,12 @@ class UserController extends Controller
      */
     public function store(StoreUserRequest $request)
     {
-        //
+        $data = $request->validated();
+        $data['password'] = bcrypt($data['password']);
+        $userName = $request->name;
+        User::create($data);
+        
+        return to_route('admin.users.index')->with('message', 'Utente ' .$userName. ' creato con successo.');
     }
 
     /**
