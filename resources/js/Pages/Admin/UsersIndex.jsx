@@ -16,7 +16,7 @@ export default function UsersIndex({ auth, users }) {
         <AuthenticatedLayout user={auth.user}>
             <Head title="Lista Utenti" />
 
-            <h1 className="pt-[100px] text-center text-6xl">Utenti</h1>
+            <h1 className="pt-[100px] text-center text-6xl">Lista Utenti</h1>
             <div className="py-5 text-center">
                 <Link
                     className="rounded-lg bg-sky-500 px-5 py-2 text-white shadow-lg transition-all duration-150 hover:bg-sky-600"

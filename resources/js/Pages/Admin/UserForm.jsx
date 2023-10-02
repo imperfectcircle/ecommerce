@@ -73,7 +73,7 @@ export default function UserForm({ auth, user }) {
                     Utenti
                 </Link>
                 {'>'}
-                <p>Crea Utente</p>
+                {user ? <p>Modifica Utente</p> : <p>Crea Utente</p>}
             </div>
             <form
                 className="mt-10 rounded-lg bg-white p-10 shadow-lg"
