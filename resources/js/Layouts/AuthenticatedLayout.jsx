@@ -4,7 +4,7 @@ import { GiHamburgerMenu } from 'react-icons/gi';
 import { HiUserCircle } from 'react-icons/hi';
 import { ImSwitch } from 'react-icons/im';
 import { BsFire } from 'react-icons/bs';
-import { AiOutlineUser } from 'react-icons/ai';
+import { AiOutlineUser, AiFillLock } from 'react-icons/ai';
 import { useMediaQuery } from 'react-responsive';
 import { usePopUpVisibility } from '@/Hooks/usePopUpVisibility';
 import { AnimatePresence, motion } from 'framer-motion';
@@ -65,20 +65,27 @@ export default function AuthenticatedLayout({ user, children }) {
             </header>
             <section className="h-screen w-full md:grid md:grid-cols-5">
                 <aside className="hidden bg-violet-400 pt-40 text-xl text-white shadow-lg shadow-black md:col-span-1 md:inline-grid">
-                    <div className="sticky top-32 space-y-3 ">
+                    <div className="mx-auto flex w-2/6 flex-col items-start space-y-3">
                         <Link
-                            className="flex items-center pl-10 transition-all duration-150 hover:font-bold"
+                            className="flex items-center transition-all duration-150 hover:font-bold"
                             href={route('admin.dashboard')}
                         >
                             <BsFire className="mr-2" />
                             Dashboard
                         </Link>
                         <Link
-                            className="flex items-center pl-10 transition-all duration-150 hover:font-bold"
+                            className="flex items-center transition-all duration-150 hover:font-bold"
                             href={route('admin.users.index')}
                         >
                             <AiOutlineUser className="mr-2" />
                             Utenti
+                        </Link>
+                        <Link
+                            className="flex items-center transition-all duration-150 hover:font-bold"
+                            href={route('admin.roles.index')}
+                        >
+                            <AiFillLock className="mr-2" />
+                            Ruoli
                         </Link>
                     </div>
                 </aside>
@@ -110,6 +117,13 @@ export default function AuthenticatedLayout({ user, children }) {
                 >
                     <AiOutlineUser className="mr-2" />
                     Utenti
+                </Link>
+                <Link
+                    className="flex w-full items-center justify-center py-10 pl-10 text-4xl text-white transition-all duration-150 hover:bg-white hover:font-bold hover:text-black"
+                    href={route('admin.roles.index')}
+                >
+                    <AiFillLock className="mr-2" />
+                    Ruoli
                 </Link>
             </div>
         </>

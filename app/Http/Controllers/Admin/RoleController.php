@@ -2,10 +2,12 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Http\Controllers\Controller;
 use App\Models\Role;
+use Inertia\Inertia;
+use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreRoleRequest;
 use App\Http\Requests\UpdateRoleRequest;
+use Spatie\Permission\Models\Permission;
 
 class RoleController extends Controller
 {
@@ -14,7 +16,12 @@ class RoleController extends Controller
      */
     public function index()
     {
-        //
+        $roles = Role::all()->map(function ($role) {
+            $role->formatted_created_at = $role->created_at->format('d-m-Y H:i:s');
+            return $role;
+        });;
+
+        return Inertia::render('Admin/RolesIndex', compact('roles'));
     }
 
     /**
@@ -22,7 +29,7 @@ class RoleController extends Controller
      */
     public function create()
     {
-        //
+        return Inertia::render('Admin/RoleForm');
     }
 
     /**
@@ -30,7 +37,10 @@ class RoleController extends Controller
      */
     public function store(StoreRoleRequest $request)
     {
-        //
+        Role::create($request->validated());
+        $roleName = $request->name;
+
+        return to_route('admin.roles.index')->with('message', 'Ruolo ' .$roleName. ' creato con successo.');
     }
 
     /**
@@ -46,7 +56,9 @@ class RoleController extends Controller
      */
     public function edit(Role $role)
     {
-        //
+        $permissions = Permission::all();
+
+        return Inertia::render('Admin/RoleForm', compact('role', 'permissions'));
     }
 
     /**
@@ -54,7 +66,10 @@ class RoleController extends Controller
      */
     public function update(UpdateRoleRequest $request, Role $role)
     {
-        //
+        $role->update($request->validated());
+        $roleName = $request->name;
+
+        return to_route('admin.roles.index')->with('message', 'Il Ruolo ' .$roleName. ' è stato aggiornato con successo.');
     }
 
     /**
@@ -62,6 +77,10 @@ class RoleController extends Controller
      */
     public function destroy(Role $role)
     {
-        //
+        $roleName = $role->name;
+        $role->delete();
+
+        return redirect(route('admin.roles.index'), 303)->with('message', 'Il ruolo ' .$roleName. ' è stato rimosso con successo.');
+
     }
 }

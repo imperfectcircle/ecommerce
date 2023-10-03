@@ -11,7 +11,7 @@ class UpdateRoleRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return $this->user()->can('update role');
     }
 
     /**
@@ -22,7 +22,18 @@ class UpdateRoleRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            'name' => 'required|string|unique:roles,name,' .$this->route('role')->id,
+            'guard' => 'sometimes|nullable|string',
+        ];
+    }
+
+    public function messages()
+    {
+        return [
+            'name.required' => 'Il campo Nome è richiesto.',
+            'name.string' => 'Il campo Nome deve essere di tipo testo.',
+            'name.unique' => 'Il Ruolo inserito esiste già.',
+            'guard.string' => 'Il campo Guard deve essere di tipo testo.',
         ];
     }
 }
