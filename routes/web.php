@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 use Illuminate\Foundation\Application;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\Admin\HomeController;
+use App\Http\Controllers\Admin\RoleController;
 use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\Guest\GuestController;
 
@@ -34,6 +35,7 @@ Route::prefix('admin')
     ->group(function () {
         Route::get('/dashboard', [HomeController::class, 'index'])->name('dashboard');
         Route::resource('users', UserController::class);
+        Route::resource('roles', RoleController::class);
 });
 
 Route::middleware('auth')->group(function () {
