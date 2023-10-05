@@ -6,8 +6,10 @@ use Illuminate\Foundation\Application;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\Admin\HomeController;
 use App\Http\Controllers\Admin\RoleController;
+use App\Http\Controllers\Admin\RolePermissionController;
 use App\Http\Controllers\Admin\UserController;
-use App\Http\Controllers\Guest\GuestController;
+use App\Http\Controllers\Admin\UserPermissionController;
+use App\Http\Controllers\Admin\UserRoleController;
 
 /*
 |--------------------------------------------------------------------------
@@ -36,6 +38,9 @@ Route::prefix('admin')
         Route::get('/dashboard', [HomeController::class, 'index'])->name('dashboard');
         Route::resource('users', UserController::class);
         Route::resource('roles', RoleController::class);
+        Route::post('/users/{user}/roles', UserRoleController::class)->name('users.roles.assign');
+        Route::post('/users/{user}/permissions', UserPermissionController::class)->name('users.permissions.assign');
+        Route::post('/roles/{role}/permissions', RolePermissionController::class)->name('roles.permissions.assign');
 });
 
 Route::middleware('auth')->group(function () {

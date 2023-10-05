@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useEffect, useRef } from 'react';
 import { Head, Link, useForm } from '@inertiajs/react';
 import TextInput from '@/Components/TextInput';
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
@@ -7,8 +7,10 @@ import InputError from '@/Components/InputError';
 import PrimaryButton from '@/Components/PrimaryButton';
 import PasswordInput from '@/Components/PasswordInput';
 import { BiHomeAlt2 } from 'react-icons/bi';
+import UserRoleForm from '@/Components/UserRoleForm';
+import UserPermissionForm from '@/Components/UserPermissionForm';
 
-export default function UserForm({ auth, user }) {
+export default function UserForm({ auth, user, permissions, roles }) {
     const { data, setData, post, put, processing, errors, reset } = useForm(
         user
             ? {
@@ -40,6 +42,8 @@ export default function UserForm({ auth, user }) {
         }
         post(route('admin.users.store'));
     };
+
+    console.log(user);
 
     return (
         <AuthenticatedLayout user={auth.user}>
@@ -75,6 +79,13 @@ export default function UserForm({ auth, user }) {
                 {'>'}
                 {user ? <p>Modifica Utente</p> : <p>Crea Utente</p>}
             </div>
+            {user && (
+                <div className="flex flex-col md:grid md:grid-cols-2 md:gap-5">
+                    <UserRoleForm user={user} roles={roles} />
+                    <UserPermissionForm user={user} permissions={permissions} />
+                </div>
+            )}
+
             <form
                 className="mt-10 rounded-lg bg-white p-10 shadow-lg"
                 onSubmit={submit}
@@ -192,7 +203,6 @@ export default function UserForm({ auth, user }) {
                         message={errors.password_confirmation}
                     />
                 </div>
-
                 <div className="mt-4 text-center">
                     <PrimaryButton
                         className="ml-4 mt-5 bg-sky-400 px-6 py-3 text-[20px] hover:bg-sky-500"

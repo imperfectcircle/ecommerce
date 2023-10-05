@@ -57,6 +57,7 @@ class RoleController extends Controller
     public function edit(Role $role)
     {
         $permissions = Permission::all();
+        $role->getPermissionNames();
 
         return Inertia::render('Admin/RoleForm', compact('role', 'permissions'));
     }

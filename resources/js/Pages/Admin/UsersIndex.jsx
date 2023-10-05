@@ -59,7 +59,15 @@ export default function UsersIndex({ auth, users }) {
                             <tr key={user.id} className="text-center">
                                 <td>{user.name}</td>
                                 <td>{user.email}</td>
-                                <td>{user.role || 'Nessuno'}</td>
+                                <td>
+                                    {user.roles.length > 0 ? (
+                                        user.roles.map((role) => (
+                                            <p key={role.id}>{role.name}</p>
+                                        ))
+                                    ) : (
+                                        <p>Nessuno</p>
+                                    )}
+                                </td>
                                 <td>{user.formatted_created_at}</td>
                                 {user.id !== auth.user.id ? (
                                     <div className="flex flex-col space-y-3 md:flex-row md:justify-center md:space-x-3 md:space-y-0">

@@ -7,6 +7,9 @@ use App\Models\User;
 use App\Http\Requests\StoreUserRequest;
 use App\Http\Requests\UpdateUserRequest;
 use Inertia\Inertia;
+use Spatie\Permission\Models\Permission;
+use Spatie\Permission\Models\Role;
+
 class UserController extends Controller
 {
     public function __construct()
@@ -19,7 +22,7 @@ class UserController extends Controller
      */
     public function index()
     {
-        $users = User::query()
+        $users = User::with('roles')
             ->orderBy('id', 'desc')
             ->get()
             ->map(function ($user) {
@@ -64,7 +67,13 @@ class UserController extends Controller
      */
     public function edit(User $user)
     {
-        return Inertia::render('Admin/UserForm', compact('user'));
+        
+        $permissions = Permission::all();
+        $roles = Role::all();
+        $user->getRoleNames();
+        $user->getPermissionNames();
+        
+        return Inertia::render('Admin/UserForm', compact('user', 'permissions', 'roles'));
     }
 
     /**

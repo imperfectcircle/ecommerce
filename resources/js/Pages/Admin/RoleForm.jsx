@@ -6,6 +6,7 @@ import InputLabel from '@/Components/InputLabel';
 import InputError from '@/Components/InputError';
 import PrimaryButton from '@/Components/PrimaryButton';
 import { BiHomeAlt2 } from 'react-icons/bi';
+import RolePermissionForm from '@/Components/RolePermissionForm';
 
 export default function UserForm({ auth, role, permissions }) {
     const { data, setData, post, put, processing, errors } = useForm(
@@ -20,6 +21,8 @@ export default function UserForm({ auth, role, permissions }) {
                   guard: '',
               },
     );
+
+    console.log(role);
 
     const submit = (event) => {
         event.preventDefault();
@@ -64,6 +67,9 @@ export default function UserForm({ auth, role, permissions }) {
                 {'>'}
                 {role ? <p>Modifica Ruolo</p> : <p>Crea Ruolo</p>}
             </div>
+            {role && (
+                <RolePermissionForm role={role} permissions={permissions} />
+            )}
             <form
                 className="mt-10 rounded-lg bg-white p-10 shadow-lg"
                 onSubmit={submit}

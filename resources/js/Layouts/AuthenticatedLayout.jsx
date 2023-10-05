@@ -20,7 +20,7 @@ export default function AuthenticatedLayout({ user, children }) {
             <Head title="E-commerce | Pannello di Gestione" />
 
             <header>
-                <nav className="fixed left-0 top-0 flex min-h-[100px] w-full items-center justify-end space-x-3 bg-violet-400 p-5 text-white shadow-lg">
+                <nav className="fixed left-0 top-0 z-50 flex min-h-[100px] w-full items-center justify-end space-x-3 bg-violet-400 p-5 text-white shadow-lg">
                     <div className="">
                         <p className="text-lg">Benvenuto, {user.name}</p>
                     </div>
@@ -90,7 +90,7 @@ export default function AuthenticatedLayout({ user, children }) {
                     </div>
                 </aside>
 
-                <main className="p-10 md:col-span-4">
+                <main className="bg-gray-100/50 p-10 md:col-span-4">
                     {children}
                     <FlashMessage />
                 </main>
