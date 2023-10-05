@@ -5,6 +5,7 @@ import { HiUserCircle } from 'react-icons/hi';
 import { ImSwitch } from 'react-icons/im';
 import { BsFire } from 'react-icons/bs';
 import { AiOutlineUser, AiFillLock } from 'react-icons/ai';
+import { BiCategoryAlt } from 'react-icons/bi';
 import { useMediaQuery } from 'react-responsive';
 import { usePopUpVisibility } from '@/Hooks/usePopUpVisibility';
 import { AnimatePresence, motion } from 'framer-motion';
@@ -87,6 +88,13 @@ export default function AuthenticatedLayout({ user, children }) {
                             <AiFillLock className="mr-2" />
                             Ruoli
                         </Link>
+                        <Link
+                            className="flex items-center transition-all duration-150 hover:font-bold"
+                            href={route('admin.categories.index')}
+                        >
+                            <BiCategoryAlt className="mr-2" />
+                            Categorie
+                        </Link>
                     </div>
                 </aside>
 
@@ -124,6 +132,13 @@ export default function AuthenticatedLayout({ user, children }) {
                 >
                     <AiFillLock className="mr-2" />
                     Ruoli
+                </Link>
+                <Link
+                    className="flex w-full items-center justify-center py-10 pl-10 text-4xl text-white transition-all duration-150 hover:bg-white hover:font-bold hover:text-black"
+                    href={route('admin.categories.index')}
+                >
+                    <BiCategoryAlt className="mr-2" />
+                    Categorie
                 </Link>
             </div>
         </>

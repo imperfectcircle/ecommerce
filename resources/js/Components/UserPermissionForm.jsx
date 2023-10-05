@@ -7,11 +7,21 @@ export default function UserPermissionForm({ user, permissions }) {
         permissions: user.permissions.map((permission) => permission.name),
     });
 
+    function chunkArray(array, size) {
+        const result = [];
+        for (let i = 0; i < array.length; i += size) {
+            result.push(array.slice(i, i + size));
+        }
+        return result;
+    }
+
     const submit = (event) => {
         event.preventDefault();
 
         post(route('admin.users.permissions.assign', user));
     };
+
+    const groupedPermissions = chunkArray(permissions, 7);
 
     return (
         <>
@@ -26,38 +36,47 @@ export default function UserPermissionForm({ user, permissions }) {
                     Assegna autorizzazioni dirette all'utente non ereditate dai
                     ruoli
                 </p>
-                {permissions.map((permission) => (
-                    <div
-                        key={permission.id}
-                        className="flex items-center space-x-3"
-                    >
-                        <InputLabel
-                            className="text-xl"
-                            htmlFor={`permissions[${permission.name}]`}
-                            value={`${permission.name}s`}
-                        />
+                {groupedPermissions.map((group, _) => (
+                    <div key={_} className="flex flex-wrap space-x-3 pt-5">
+                        {group.map((permission) => (
+                            <div
+                                key={permission.id}
+                                className="flex items-center space-x-1"
+                            >
+                                <InputLabel
+                                    className="text-xl"
+                                    htmlFor={`permissions[${permission.name}]`}
+                                    value={permission.name}
+                                />
 
-                        <input
-                            type="checkbox"
-                            name={`permissions[${permission.name}]`}
-                            id={`permissions[${permission.name}]`}
-                            value={permission.name}
-                            onChange={(ev) => {
-                                const permissionName = ev.target.value;
-                                data.permissions.includes(permissionName)
-                                    ? setData(
-                                          'permissions',
-                                          data.permissions.filter(
-                                              (p) => p !== permissionName,
-                                          ),
-                                      )
-                                    : setData('permissions', [
-                                          ...data.permissions,
-                                          ev.target.value,
-                                      ]);
-                            }}
-                            checked={data.permissions.includes(permission.name)}
-                        />
+                                <input
+                                    type="checkbox"
+                                    name={`permissions[${permission.name}]`}
+                                    id={`permissions[${permission.name}]`}
+                                    value={permission.name}
+                                    onChange={(ev) => {
+                                        const permissionName = ev.target.value;
+                                        data.permissions.includes(
+                                            permissionName,
+                                        )
+                                            ? setData(
+                                                  'permissions',
+                                                  data.permissions.filter(
+                                                      (p) =>
+                                                          p !== permissionName,
+                                                  ),
+                                              )
+                                            : setData('permissions', [
+                                                  ...data.permissions,
+                                                  ev.target.value,
+                                              ]);
+                                    }}
+                                    checked={data.permissions.includes(
+                                        permission.name,
+                                    )}
+                                />
+                            </div>
+                        ))}
                     </div>
                 ))}
 
