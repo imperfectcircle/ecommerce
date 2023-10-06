@@ -11,7 +11,7 @@ class UpdateCategoryRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return $this->user()->can('update category');
     }
 
     /**
@@ -22,7 +22,22 @@ class UpdateCategoryRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            'name' => 'required|string|unique:categories|max:255',
+            'description' => 'sometimes|nullable|string',
+            'parent_id' => 'sometimes|nullable|integer|exists:categories,id',
+        ];
+    }
+
+    public function messages()
+    {
+        return [
+            'name.requires' => 'Il campo Nome è richiesto.',
+            'name.string' => 'Il campo Nome deve essere di tipo testo.',
+            'name.unique' => 'Esiste già una categoria con questo nome.',
+            'name.max' => 'Il campo Nome ha una lunghezza massima di 255 caratteri.',
+            'description.string' => 'Il campo Descrizione deve essere di tipo testo.',
+            'parent_id.integer' => 'Il campo Categoria Padre deve essere di tipo numerico.',
+            'parent_id.exists' => 'Il campo Categoria Padre inserito non esiste nel database.',
         ];
     }
 }

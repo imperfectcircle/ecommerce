@@ -49,14 +49,14 @@ export default function UserForm({ auth, user, permissions, roles }) {
         <AuthenticatedLayout user={auth.user}>
             {user ? (
                 <div className="pt-[100px]">
-                    <Head title="Modifica Utente | Pannello di Gestione" />
+                    <Head title="Modifica Utente" />
                     <h1 className="mt-5 pb-5 text-center text-4xl font-bold">
                         Stai modificando l'utente: {user.name}
                     </h1>
                 </div>
             ) : (
                 <div className="pt-[100px]">
-                    <Head title="Crea Utente | Pannello di Gestione" />
+                    <Head title="Crea Utente" />
                     <h1 className="mt-5 pb-5 text-center text-4xl font-bold">
                         Nuovo Utente
                     </h1>

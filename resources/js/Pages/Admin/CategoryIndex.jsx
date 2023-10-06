@@ -15,7 +15,7 @@ export default function UsersIndex({ auth, categories }) {
 
     return (
         <AuthenticatedLayout user={auth.user}>
-            <Head title="Lista Utenti" />
+            <Head title="Lista Categorie" />
 
             <h1 className="pt-[100px] text-center text-6xl">Lista Categorie</h1>
             <div className="py-5 text-center">
