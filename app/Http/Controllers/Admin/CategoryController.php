@@ -19,8 +19,9 @@ class CategoryController extends Controller
     {
         $categories = Category::with('parent')
             ->orderBy('id', 'desc')
-            ->get()
-            ->map(function ($category) {
+            ->paginate(10);
+            
+            $categories->getCollection()->transform(function ($category) {
                 $category->formatted_created_at = $category->created_at->format('d-m-Y H:i:s');
                 return $category;
             });

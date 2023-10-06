@@ -1,5 +1,6 @@
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
-import { Head, Link } from '@inertiajs/react';
+import { Head, Link, router } from '@inertiajs/react';
+import { Pagination } from 'flowbite-react';
 import { BiHomeAlt2 } from 'react-icons/bi';
 
 export default function RolesIndex({ auth, roles }) {
@@ -54,14 +55,14 @@ export default function RolesIndex({ auth, roles }) {
                         </tr>
                     </thead>
                     <tbody>
-                        {roles.map((role) => (
+                        {roles.data.map((role) => (
                             <tr key={role.id} className="text-center">
                                 <td>{role.name}</td>
                                 <td>{role.guard_name}</td>
                                 <td>{role.formatted_created_at}</td>
 
                                 {role.name !== 'super admin' ? (
-                                    <div className="flex flex-col space-y-3 md:flex-row md:justify-center md:space-x-3 md:space-y-0">
+                                    <td className="flex flex-col space-y-3 md:flex-row md:justify-center md:space-x-3 md:space-y-0">
                                         <Link
                                             className="rounded-lg bg-emerald-500 px-5 py-2 text-white shadow-lg transition-all duration-150 hover:bg-emerald-600"
                                             href={route(
@@ -85,9 +86,9 @@ export default function RolesIndex({ auth, roles }) {
                                         >
                                             Elimina
                                         </Link>
-                                    </div>
+                                    </td>
                                 ) : (
-                                    <div className="flex flex-col space-y-3 md:flex-row md:justify-center md:space-x-3 md:space-y-0">
+                                    <td className="flex flex-col space-y-3 md:flex-row md:justify-center md:space-x-3 md:space-y-0">
                                         <Link
                                             className="cursor-not-allowed rounded-lg bg-emerald-500 px-5 py-2 text-white opacity-50 shadow-lg"
                                             href="#"
@@ -101,12 +102,25 @@ export default function RolesIndex({ auth, roles }) {
                                         >
                                             Elimina
                                         </button>
-                                    </div>
+                                    </td>
                                 )}
                             </tr>
                         ))}
                     </tbody>
                 </table>
+                <div className="mt-5 text-center">
+                    <Pagination
+                        currentPage={roles.current_page}
+                        layout="pagination"
+                        nextLabel="Successivo"
+                        previousLabel="Precedente"
+                        onPageChange={(newPage) => {
+                            router.visit(roles.links[newPage].url);
+                        }}
+                        showIcons
+                        totalPages={roles.last_page}
+                    />
+                </div>
             </div>
         </AuthenticatedLayout>
     );

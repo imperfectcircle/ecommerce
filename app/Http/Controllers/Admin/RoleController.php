@@ -16,10 +16,12 @@ class RoleController extends Controller
      */
     public function index()
     {
-        $roles = Role::all()->map(function ($role) {
+        $roles = Role::paginate(10);
+        
+        $roles->getCollection()->transform(function ($role) {
             $role->formatted_created_at = $role->created_at->format('d-m-Y H:i:s');
             return $role;
-        });;
+        });
 
         return Inertia::render('Admin/RolesIndex', compact('roles'));
     }

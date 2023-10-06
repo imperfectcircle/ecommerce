@@ -24,8 +24,9 @@ class UserController extends Controller
     {
         $users = User::with('roles')
             ->orderBy('id', 'desc')
-            ->get()
-            ->map(function ($user) {
+            ->paginate(10);
+
+        $users->getCollection()->transform(function ($user) {
             $user->formatted_created_at = $user->created_at->format('d-m-Y H:i:s');
             return $user;
         });

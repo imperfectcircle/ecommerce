@@ -1,6 +1,7 @@
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
 import { BiHomeAlt2 } from 'react-icons/bi';
-import { Head, Link } from '@inertiajs/react';
+import { Head, Link, router } from '@inertiajs/react';
+import { Pagination } from 'flowbite-react';
 
 export default function UsersIndex({ auth, users }) {
     const confirmationHandler = (username) => {
@@ -55,7 +56,7 @@ export default function UsersIndex({ auth, users }) {
                         </tr>
                     </thead>
                     <tbody>
-                        {users.map((user) => (
+                        {users.data.map((user) => (
                             <tr key={user.id} className="text-center">
                                 <td>{user.name}</td>
                                 <td>{user.email}</td>
@@ -70,7 +71,7 @@ export default function UsersIndex({ auth, users }) {
                                 </td>
                                 <td>{user.formatted_created_at}</td>
                                 {user.id !== auth.user.id ? (
-                                    <div className="flex flex-col space-y-3 md:flex-row md:justify-center md:space-x-3 md:space-y-0">
+                                    <td className="flex flex-col space-y-3 md:flex-row md:justify-center md:space-x-3 md:space-y-0">
                                         <Link
                                             className="rounded-lg bg-emerald-500 px-5 py-2 text-white shadow-lg transition-all duration-150 hover:bg-emerald-600"
                                             href={route(
@@ -94,9 +95,9 @@ export default function UsersIndex({ auth, users }) {
                                         >
                                             Elimina
                                         </Link>
-                                    </div>
+                                    </td>
                                 ) : (
-                                    <div className="flex flex-col space-y-3 md:flex-row md:justify-center md:space-x-3 md:space-y-0">
+                                    <td className="flex flex-col space-y-3 md:flex-row md:justify-center md:space-x-3 md:space-y-0">
                                         <Link
                                             className="cursor-not-allowed rounded-lg bg-emerald-500 px-5 py-2 text-white opacity-50 shadow-lg"
                                             href="#"
@@ -110,12 +111,25 @@ export default function UsersIndex({ auth, users }) {
                                         >
                                             Elimina
                                         </button>
-                                    </div>
+                                    </td>
                                 )}
                             </tr>
                         ))}
                     </tbody>
                 </table>
+                <div className="mt-5 text-center">
+                    <Pagination
+                        currentPage={users.current_page}
+                        layout="pagination"
+                        nextLabel="Successivo"
+                        previousLabel="Precedente"
+                        onPageChange={(newPage) => {
+                            router.visit(users.links[newPage].url);
+                        }}
+                        showIcons
+                        totalPages={users.last_page}
+                    />
+                </div>
             </div>
         </AuthenticatedLayout>
     );

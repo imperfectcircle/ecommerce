@@ -1,6 +1,7 @@
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
 import { BiHomeAlt2 } from 'react-icons/bi';
-import { Head, Link } from '@inertiajs/react';
+import { Head, Link, router } from '@inertiajs/react';
+import { Pagination } from 'flowbite-react';
 
 export default function UsersIndex({ auth, categories }) {
     const confirmationHandler = (name) => {
@@ -11,8 +12,6 @@ export default function UsersIndex({ auth, categories }) {
             return false;
         }
     };
-
-    console.log(categories);
 
     return (
         <AuthenticatedLayout user={auth.user}>
@@ -57,14 +56,21 @@ export default function UsersIndex({ auth, categories }) {
                         </tr>
                     </thead>
                     <tbody>
-                        {categories.map((category) => (
+                        {categories.data.map((category) => (
                             <tr key={category.id} className="text-center">
                                 <td>{category.name}</td>
-                                <td>{category.description}</td>
+                                <td>
+                                    {category.description.length > 50
+                                        ? `${category.description.substring(
+                                              0,
+                                              50,
+                                          )}...`
+                                        : category.description}
+                                </td>
                                 <td>{category.parent.name}</td>
                                 <td>{category.formatted_created_at}</td>
 
-                                <div className="flex flex-col space-y-3 md:flex-row md:justify-center md:space-x-3 md:space-y-0">
+                                <td className="flex flex-col space-y-3 md:flex-row md:justify-center md:space-x-3 md:space-y-0">
                                     <Link
                                         className="rounded-lg bg-emerald-500 px-5 py-2 text-white shadow-lg transition-all duration-150 hover:bg-emerald-600"
                                         href={route(
@@ -88,11 +94,24 @@ export default function UsersIndex({ auth, categories }) {
                                     >
                                         Elimina
                                     </Link>
-                                </div>
+                                </td>
                             </tr>
                         ))}
                     </tbody>
                 </table>
+                <div className="mt-5 text-center">
+                    <Pagination
+                        currentPage={categories.current_page}
+                        layout="pagination"
+                        nextLabel="Successivo"
+                        previousLabel="Precedente"
+                        onPageChange={(newPage) => {
+                            router.visit(categories.links[newPage].url);
+                        }}
+                        showIcons
+                        totalPages={categories.last_page}
+                    />
+                </div>
             </div>
         </AuthenticatedLayout>
     );
