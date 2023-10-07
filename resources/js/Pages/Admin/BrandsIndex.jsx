@@ -1,12 +1,12 @@
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
-import { BiHomeAlt2 } from 'react-icons/bi';
 import { Head, Link, router } from '@inertiajs/react';
 import { Pagination } from 'flowbite-react';
+import { BiHomeAlt2 } from 'react-icons/bi';
 
-export default function UsersIndex({ auth, categories }) {
-    const confirmationHandler = (name) => {
+export default function BrandsIndex({ auth, brands }) {
+    const confirmationHandler = (brand) => {
         const confirmed = window.confirm(
-            `Stai per eliminare la categoria ${name}. Sei sicuro di voler procedere?`,
+            `Stai per eliminare il brand ${brand}. Sei sicuro di voler continuare?`,
         );
         if (!confirmed) {
             return false;
@@ -15,15 +15,15 @@ export default function UsersIndex({ auth, categories }) {
 
     return (
         <AuthenticatedLayout user={auth.user}>
-            <Head title="Lista Categorie" />
+            <Head title="Lista Brand" />
 
-            <h1 className="pt-[100px] text-center text-6xl">Lista Categorie</h1>
+            <h1 className="pt-[100px] text-center text-6xl">Lista Brand</h1>
             <div className="py-5 text-center">
                 <Link
                     className="rounded-lg bg-sky-500 px-5 py-2 text-white shadow-lg transition-all duration-150 hover:bg-sky-600"
-                    href={route('admin.categories.create')}
+                    href={route('admin.brands.create')}
                 >
-                    Crea Categoria
+                    Crea Brand
                 </Link>
             </div>
             <div className="flex space-x-2 py-5">
@@ -36,47 +36,34 @@ export default function UsersIndex({ auth, categories }) {
                 {'>'}
                 <Link
                     className="underline transition-all duration-150 hover:text-red-500"
-                    href={route('admin.categories.index')}
+                    href={route('admin.brands.index')}
                 >
-                    Categorie
+                    Brand
                 </Link>
                 {'>'}
-                <p>Lista Categorie</p>
+                <p>Lista Brand</p>
             </div>
 
-            <div className="overflow-x">
-                <table className="w-full border-separate border-spacing-4 overflow-scroll">
+            <div className="">
+                <table className="block w-full border-separate border-spacing-4 overflow-x-scroll md:table md:overflow-x-hidden">
                     <thead className="bg-gray-200">
                         <tr className="text-center">
                             <th>Nome</th>
                             <th>Descrizione</th>
-                            <th>Categoria Padre</th>
-                            <th>Creata il</th>
+                            <th>Creato il</th>
                             <th>Azioni</th>
                         </tr>
                     </thead>
                     <tbody>
-                        {categories.data.map((category) => (
-                            <tr key={category.id} className="text-center">
-                                <td>{category.name}</td>
-                                <td>
-                                    {category.description.length > 50
-                                        ? `${category.description.substring(
-                                              0,
-                                              50,
-                                          )}...`
-                                        : category.description}
-                                </td>
-                                <td>{category.parent.name}</td>
-                                <td>{category.formatted_created_at}</td>
-
+                        {brands.data.map((brand) => (
+                            <tr key={brand.id} className="text-center">
+                                <td>{brand.name}</td>
+                                <td>{brand.description}</td>
+                                <td>{brand.formatted_created_at}</td>
                                 <td className="flex flex-col space-y-3 md:flex-row md:justify-center md:space-x-3 md:space-y-0">
                                     <Link
                                         className="rounded-lg bg-emerald-500 px-5 py-2 text-white shadow-lg transition-all duration-150 hover:bg-emerald-600"
-                                        href={route(
-                                            'admin.categories.edit',
-                                            category,
-                                        )}
+                                        href={route('admin.brands.edit', brand)}
                                     >
                                         Modifica
                                     </Link>
@@ -85,11 +72,11 @@ export default function UsersIndex({ auth, categories }) {
                                         method="delete"
                                         as="button"
                                         onBefore={() =>
-                                            confirmationHandler(category.name)
+                                            confirmationHandler(brand.name)
                                         }
                                         href={route(
-                                            'admin.categories.destroy',
-                                            category,
+                                            'admin.brands.destroy',
+                                            brand,
                                         )}
                                     >
                                         Elimina
@@ -101,15 +88,15 @@ export default function UsersIndex({ auth, categories }) {
                 </table>
                 <div className="mt-5 text-center">
                     <Pagination
-                        currentPage={categories.current_page}
+                        currentPage={brands.current_page}
                         layout="pagination"
                         nextLabel="Successivo"
                         previousLabel="Precedente"
                         onPageChange={(newPage) => {
-                            router.visit(categories.links[newPage].url);
+                            router.visit(brands.links[newPage].url);
                         }}
                         showIcons
-                        totalPages={categories.last_page}
+                        totalPages={brands.last_page}
                     />
                 </div>
             </div>

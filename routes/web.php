@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Admin\BrandController;
 use App\Http\Controllers\Admin\CategoryController;
 use Inertia\Inertia;
 use Illuminate\Support\Facades\Route;
@@ -40,6 +41,7 @@ Route::prefix('admin')
         Route::resource('users', UserController::class);
         Route::resource('roles', RoleController::class);
         Route::resource('categories', CategoryController::class);
+        Route::resource('brands', BrandController::class);
         Route::post('/users/{user}/roles', UserRoleController::class)->name('users.roles.assign');
         Route::post('/users/{user}/permissions', UserPermissionController::class)->name('users.permissions.assign');
         Route::post('/roles/{role}/permissions', RolePermissionController::class)->name('roles.permissions.assign');

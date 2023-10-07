@@ -28,7 +28,7 @@ class CategoryController extends Controller
                 return $category;
             });
 
-        return Inertia::render('Admin/CategoryIndex', compact('categories'));
+        return Inertia::render('Admin/CategoriesIndex', compact('categories'));
     }
 
     /**
@@ -76,6 +76,7 @@ class CategoryController extends Controller
      */
     public function update(UpdateCategoryRequest $request, Category $category)
     {
+
         $category->update($request->validated());
         $categoryName = $request->name;
 

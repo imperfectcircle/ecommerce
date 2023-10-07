@@ -4,7 +4,11 @@ import { GiHamburgerMenu } from 'react-icons/gi';
 import { HiUserCircle } from 'react-icons/hi';
 import { ImSwitch } from 'react-icons/im';
 import { BsFire } from 'react-icons/bs';
-import { AiOutlineUser, AiFillLock } from 'react-icons/ai';
+import {
+    AiOutlineUser,
+    AiFillLock,
+    AiOutlineCopyrightCircle,
+} from 'react-icons/ai';
 import { BiCategoryAlt } from 'react-icons/bi';
 import { useMediaQuery } from 'react-responsive';
 import { usePopUpVisibility } from '@/Hooks/usePopUpVisibility';
@@ -21,7 +25,7 @@ export default function AuthenticatedLayout({ user, children }) {
             <Head title="E-commerce | Pannello di Gestione" />
 
             <header>
-                <nav className="fixed left-0 top-0 z-50 flex min-h-[100px] w-full items-center justify-end space-x-3 bg-violet-400 p-5 text-white shadow-lg">
+                <nav className="fixed left-0 top-0 z-10 flex min-h-[100px] w-[100vw] items-center justify-end space-x-3 bg-violet-400 p-5 text-white shadow-lg">
                     <div className="">
                         <p className="text-lg">Benvenuto, {user.name}</p>
                     </div>
@@ -95,10 +99,17 @@ export default function AuthenticatedLayout({ user, children }) {
                             <BiCategoryAlt className="mr-2" />
                             Categorie
                         </Link>
+                        <Link
+                            className="flex items-center transition-all duration-150 hover:font-bold"
+                            href={route('admin.brands.index')}
+                        >
+                            <AiOutlineCopyrightCircle className="mr-2" />
+                            Brand
+                        </Link>
                     </div>
                 </aside>
 
-                <main className="bg-gray-100/50 p-10 md:col-span-4">
+                <main className="p-10 md:col-span-4">
                     {children}
                     <FlashMessage />
                 </main>
@@ -108,37 +119,44 @@ export default function AuthenticatedLayout({ user, children }) {
             <div
                 className={`${
                     sidebar && isMobile
-                        ? 'absolute top-[100px] flex min-h-screen w-full flex-col items-center space-y-5 bg-violet-400'
+                        ? 'absolute top-[100px] flex min-h-screen w-full flex-col items-center space-y-3 bg-violet-400'
                         : 'hidden'
                 }`}
             >
                 <Link
-                    className="flex w-full items-center justify-center py-10 pl-10 text-4xl text-white transition-all duration-150 hover:bg-white hover:font-bold hover:text-black"
+                    className="flex w-full items-center justify-center pt-10 text-2xl text-white transition-all duration-150 hover:bg-white hover:font-bold hover:text-black"
                     href={route('admin.dashboard')}
                 >
                     <BsFire className="mr-2" />
                     Dashboard
                 </Link>
                 <Link
-                    className="flex w-full items-center justify-center py-10 pl-10 text-4xl text-white transition-all duration-150 hover:bg-white hover:font-bold hover:text-black"
+                    className="flex w-full items-center justify-center pt-10 text-2xl text-white transition-all duration-150 hover:bg-white hover:font-bold hover:text-black"
                     href={route('admin.users.index')}
                 >
                     <AiOutlineUser className="mr-2" />
                     Utenti
                 </Link>
                 <Link
-                    className="flex w-full items-center justify-center py-10 pl-10 text-4xl text-white transition-all duration-150 hover:bg-white hover:font-bold hover:text-black"
+                    className="flex w-full items-center justify-center pt-10 text-2xl text-white transition-all duration-150 hover:bg-white hover:font-bold hover:text-black"
                     href={route('admin.roles.index')}
                 >
                     <AiFillLock className="mr-2" />
                     Ruoli
                 </Link>
                 <Link
-                    className="flex w-full items-center justify-center py-10 pl-10 text-4xl text-white transition-all duration-150 hover:bg-white hover:font-bold hover:text-black"
+                    className="flex w-full items-center justify-center pt-10 text-2xl text-white transition-all duration-150 hover:bg-white hover:font-bold hover:text-black"
                     href={route('admin.categories.index')}
                 >
                     <BiCategoryAlt className="mr-2" />
                     Categorie
+                </Link>
+                <Link
+                    className="flex w-full items-center justify-center pt-10 text-2xl text-white transition-all duration-150 hover:bg-white hover:font-bold hover:text-black"
+                    href={route('admin.brands.index')}
+                >
+                    <AiOutlineCopyrightCircle className="mr-2" />
+                    Brand
                 </Link>
             </div>
         </>

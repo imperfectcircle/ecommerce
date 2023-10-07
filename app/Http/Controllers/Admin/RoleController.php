@@ -83,7 +83,7 @@ class RoleController extends Controller
         $roleName = $role->name;
         $role->delete();
 
-        return redirect(route('admin.roles.index'), 303)->with('message', 'Il ruolo ' .$roleName. ' è stato rimosso con successo.');
+        return redirect(route('admin.roles.index'), 303)->with('message', 'Il Ruolo ' .$roleName. ' è stato rimosso con successo.');
 
     }
 }

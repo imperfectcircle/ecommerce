@@ -6,16 +6,14 @@ import InputError from '@/Components/InputError';
 import PrimaryButton from '@/Components/PrimaryButton';
 import { BiHomeAlt2 } from 'react-icons/bi';
 
-export default function CategoryForm({ auth, category, categories }) {
+export default function BrandForm({ auth, brand }) {
     const { data, setData, post, put, processing, errors } = useForm(
-        category
+        brand
             ? {
-                  parent_id: category.parent_id,
-                  name: category.name,
-                  description: category.description,
+                  name: brand.name,
+                  description: brand.description,
               }
             : {
-                  parent_id: '',
                   name: '',
                   description: '',
               },
@@ -23,27 +21,27 @@ export default function CategoryForm({ auth, category, categories }) {
 
     const submit = (event) => {
         event.preventDefault();
-        if (category) {
-            put(route('admin.categories.update', category));
+        if (brand) {
+            put(route('admin.brands.update', brand));
             return;
         }
-        post(route('admin.categories.store'));
+        post(route('admin.brands.store'));
     };
 
     return (
         <AuthenticatedLayout user={auth.user}>
-            {category ? (
+            {brand ? (
                 <div className="pt-[100px]">
-                    <Head title="Modifica Categoria" />
+                    <Head title="Modifica Brand" />
                     <h1 className="mt-5 pb-5 text-center text-4xl font-bold">
-                        Stai modificando la categoria: {category.name}
+                        Stai modificando il brand: {brand.name}
                     </h1>
                 </div>
             ) : (
                 <div className="pt-[100px]">
-                    <Head title="Crea Ruolo" />
+                    <Head title="Crea Brand" />
                     <h1 className="mt-5 pb-5 text-center text-4xl font-bold">
-                        Nuova Categoria
+                        Nuovo Brand
                     </h1>
                 </div>
             )}
@@ -57,52 +55,17 @@ export default function CategoryForm({ auth, category, categories }) {
                 {'>'}
                 <Link
                     className="underline transition-all duration-150 hover:text-red-500"
-                    href={route('admin.categories.index')}
+                    href={route('admin.brands.index')}
                 >
-                    Categorie
+                    Brand
                 </Link>
                 {'>'}
-                {category ? <p>Modifica Categoria</p> : <p>Crea Categoria</p>}
+                {brand ? <p>Modifica Brand</p> : <p>Crea Brand</p>}
             </div>
             <form
                 className="mt-10 rounded-lg bg-white p-10 shadow-lg"
                 onSubmit={submit}
             >
-                <div>
-                    <InputLabel
-                        className={`text-xl ${
-                            errors.parent_id ? 'text-red-500' : ''
-                        }`}
-                        htmlFor="parent_id"
-                        value="Categoria Padre"
-                    />
-                    <select
-                        className="mb-3 mt-1 rounded-lg shadow-lg"
-                        name="parent_id"
-                        onChange={(event) =>
-                            setData('parent_id', event.target.value)
-                        }
-                    >
-                        {category
-                            ? categories.map((parent) =>
-                                  parent.id === category.parent_id ? (
-                                      <option selected value={parent.id}>
-                                          {parent.name}
-                                      </option>
-                                  ) : (
-                                      <option value={parent.id}>
-                                          {parent.name}
-                                      </option>
-                                  ),
-                              )
-                            : categories.map((category) => (
-                                  <option value={category.id}>
-                                      {category.name}
-                                  </option>
-                              ))}
-                    </select>
-                </div>
-
                 <div>
                     <InputLabel
                         className={`text-xl ${
@@ -166,7 +129,7 @@ export default function CategoryForm({ auth, category, categories }) {
                         className="ml-4 mt-5 bg-sky-400 px-6 py-3 text-[20px] hover:bg-sky-500"
                         disabled={processing}
                     >
-                        {category ? 'Modifica Categoria' : 'Crea Categoria'}
+                        {brand ? 'Modifica Brand' : 'Crea Brand'}
                     </PrimaryButton>
                 </div>
             </form>

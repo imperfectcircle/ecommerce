@@ -44,8 +44,8 @@ export default function UsersIndex({ auth, users }) {
                 <p>Lista Utenti</p>
             </div>
 
-            <div className="overflow-x">
-                <table className="w-full border-separate border-spacing-4 overflow-scroll">
+            <div className="">
+                <table className="block w-full border-separate border-spacing-4 overflow-x-scroll md:table md:overflow-x-hidden">
                     <thead className="bg-gray-200">
                         <tr className="text-center">
                             <th>Nome</th>

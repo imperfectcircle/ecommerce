@@ -5,14 +5,14 @@ namespace App\Http\Requests;
 use Illuminate\Validation\Rule;
 use Illuminate\Foundation\Http\FormRequest;
 
-class UpdateCategoryRequest extends FormRequest
+class UpdateBrandRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
      */
     public function authorize(): bool
     {
-        return $this->user()->can('update category');
+        return $this->user()->can('update brand', $this->route('brand'));
     }
 
     /**
@@ -22,16 +22,14 @@ class UpdateCategoryRequest extends FormRequest
      */
     public function rules(): array
     {
-        $category = $this->route('category');
         return [
             'name' => [
-            'required',
-            'string',
-            'max:255',
-            Rule::unique('categories', 'name')->ignore($category->id),
-        ],
+                'required',
+                'string',
+                'max:255',
+                Rule::unique('brands')->ignore($this->route('brand')->id),
+            ],
             'description' => 'sometimes|nullable|string',
-            'parent_id' => 'sometimes|nullable|integer|exists:categories,id',
         ];
     }
 
@@ -43,8 +41,6 @@ class UpdateCategoryRequest extends FormRequest
             'name.unique' => 'Esiste già una categoria con questo nome.',
             'name.max' => 'Il campo Nome ha una lunghezza massima di 255 caratteri.',
             'description.string' => 'Il campo Descrizione deve essere di tipo testo.',
-            'parent_id.integer' => 'Il campo Categoria Padre deve essere di tipo numerico.',
-            'parent_id.exists' => 'Il campo Categoria Padre inserito non esiste nel database.',
         ];
     }
 }
