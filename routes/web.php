@@ -12,6 +12,7 @@ use App\Http\Controllers\Admin\RolePermissionController;
 use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\Admin\UserPermissionController;
 use App\Http\Controllers\Admin\UserRoleController;
+use App\Http\Controllers\Admin\ProductController;
 
 /*
 |--------------------------------------------------------------------------
@@ -42,6 +43,7 @@ Route::prefix('admin')
         Route::resource('roles', RoleController::class);
         Route::resource('categories', CategoryController::class);
         Route::resource('brands', BrandController::class);
+        Route::resource('products', ProductController::class);
         Route::post('/users/{user}/roles', UserRoleController::class)->name('users.roles.assign');
         Route::post('/users/{user}/permissions', UserPermissionController::class)->name('users.permissions.assign');
         Route::post('/roles/{role}/permissions', RolePermissionController::class)->name('roles.permissions.assign');

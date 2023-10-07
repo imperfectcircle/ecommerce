@@ -3,10 +3,10 @@
 namespace App\Policies;
 
 use App\Models\User;
-use App\Models\Brand;
+use App\Models\Product;
 use Illuminate\Auth\Access\HandlesAuthorization;
 
-class BrandPolicy
+class ProductPolicy
 {
     use HandlesAuthorization;
 
@@ -18,19 +18,19 @@ class BrandPolicy
      */
     public function viewAny(User $user): bool
     {
-        return $user->can('view all brands');
+        return $user->can('view all products');
     }
 
     /**
      * Determine whether the user can view the model.
      *
      * @param  \App\Models\User  $user
-     * @param  \App\Models\User  $brand
+     * @param  \App\Models\User  $product
      * @return \Illuminate\Auth\Access\Response|bool
      */
-    public function view(User $user, Brand $brand): bool
+    public function view(User $user, Product $product): bool
     {
-        return $user->can('view brand', $brand);
+        return $user->can('view product', $product);
     }
 
     /**
@@ -41,54 +41,54 @@ class BrandPolicy
      */
     public function create(User $user): bool
     {
-        return $user->can('create brand');
+        return $user->can('create product');
     }
 
     /**
      * Determine whether the user can update the model.
      *
      * @param  \App\Models\User  $user
-     * @param  \App\Models\User  $brand
+     * @param  \App\Models\User  $product
      * @return \Illuminate\Auth\Access\Response|bool
      */
-    public function update(User $user, Brand $brand): bool
+    public function update(User $user, Product $product): bool
     {
-        return $user->can('update brand', $brand);
+        return $user->can('update product', $product);
     }
 
     /**
      * Determine whether the user can delete the model.
      *
      * @param  \App\Models\User  $user
-     * @param  \App\Models\User  $brand
+     * @param  \App\Models\User  $product
      * @return \Illuminate\Auth\Access\Response|bool
      */
-    public function delete(User $user, Brand $brand): bool
+    public function delete(User $user, Product $product): bool
     {
-        return $user->can('delete brand', $brand);
+        return $user->can('delete product', $product);
     }
 
     /**
      * Determine whether the user can restore the model.
      *
      * @param  \App\Models\User  $user
-     * @param  \App\Models\User  $brand
+     * @param  \App\Models\User  $product
      * @return \Illuminate\Auth\Access\Response|bool
      */
-    public function restore(User $user, Brand $brand): bool
+    public function restore(User $user, Product $product): bool
     {
-        return $user->can('restore brand', $brand);
+        return $user->can('restore product', $product);
     }
 
     /**
      * Determine whether the user can permanently delete the model.
      *
      * @param  \App\Models\User  $user
-     * @param  \App\Models\User  $brand
+     * @param  \App\Models\User  $product
      * @return \Illuminate\Auth\Access\Response|bool
      */
-    public function forceDelete(User $user, Brand $brand): bool
+    public function forceDelete(User $user, Product $product): bool
     {
-        return $user->can('force delete brand', $brand);
+        return $user->can('force delete product', $product);
     }
 }

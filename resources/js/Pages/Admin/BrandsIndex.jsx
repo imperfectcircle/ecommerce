@@ -58,7 +58,14 @@ export default function BrandsIndex({ auth, brands }) {
                         {brands.data.map((brand) => (
                             <tr key={brand.id} className="text-center">
                                 <td>{brand.name}</td>
-                                <td>{brand.description}</td>
+                                <td>
+                                    {brand.description.length > 50
+                                        ? `${brand.description.substring(
+                                              0,
+                                              50,
+                                          )}...`
+                                        : brand.description}
+                                </td>
                                 <td>{brand.formatted_created_at}</td>
                                 <td className="flex flex-col space-y-3 md:flex-row md:justify-center md:space-x-3 md:space-y-0">
                                     <Link

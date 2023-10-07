@@ -2,15 +2,17 @@
 
 namespace App\Models;
 
-use Spatie\Sluggable\HasSlug;
-use Illuminate\Database\Eloquent\Model;
+use CloudinaryLabs\CloudinaryLaravel\MediaAlly;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
+use Spatie\Sluggable\HasSlug;
 use Spatie\Sluggable\SlugOptions;
 
-class Category extends Model
+class Product extends Model
 {
     use HasFactory;
     use HasSlug;
+    use MediaAlly;
 
     protected $guarded = [];
 
@@ -21,15 +23,7 @@ class Category extends Model
             ->saveSlugsTo('slug');
     }
 
-    public function parent() {
-        return $this->belongsTo(self::class, 'parent_id');
-    }
-
-    public function children() {
-        return $this->hasMany(self::class, 'parent_id');
-    }
-
-    public function products() {
-        return $this->hasMany(Product::class);
+    public function category() {
+        return $this->belongsTo(Category::class);
     }
 }
