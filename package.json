@@ -22,6 +22,8 @@
         "vite": "^4.0.0"
     },
     "dependencies": {
+        "@ckeditor/ckeditor5-build-classic": "^40.0.0",
+        "@ckeditor/ckeditor5-react": "^6.1.0",
         "flowbite-react": "^0.6.4",
         "framer-motion": "^10.16.4",
         "react-icons": "^4.11.0",

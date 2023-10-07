@@ -2,6 +2,8 @@ import InputError from '@/Components/InputError';
 import InputLabel from '@/Components/InputLabel';
 import TextInput from '@/Components/TextInput';
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
+import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
+import { CKEditor } from '@ckeditor/ckeditor5-react';
 import { Head, Link, useForm } from '@inertiajs/react';
 import { BiHomeAlt2 } from 'react-icons/bi';
 
@@ -122,7 +124,7 @@ export default function ProductForm({ auth, product, categories }) {
                                     value="Descrizione"
                                 />
 
-                                <textarea
+                                {/* <textarea
                                     rows="10"
                                     className={`mt-1 block w-full resize-none rounded-md text-xl shadow-lg ${
                                         errors.description
@@ -137,8 +139,16 @@ export default function ProductForm({ auth, product, categories }) {
                                     }
                                 >
                                     {data.description}
-                                </textarea>
+                                </textarea> */}
 
+                                <CKEditor
+                                    editor={ClassicEditor}
+                                    data={data.description}
+                                    onChange={(event, editor) => {
+                                        const data = editor.getData();
+                                        setData('description', data);
+                                    }}
+                                />
                                 <InputError
                                     className="mt-2 text-xl"
                                     message={errors.description}
