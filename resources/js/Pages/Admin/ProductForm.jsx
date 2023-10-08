@@ -94,6 +94,7 @@ export default function ProductForm({ auth, product, categories }) {
                         <p className="text-xl">Informazioni Prodotto</p>
                     </div>
                     <div className="p-5">
+                        {/* Informazioni Prodotto */}
                         <form id="productForm" onSubmit={submit}>
                             <div>
                                 <InputLabel
@@ -147,6 +148,7 @@ export default function ProductForm({ auth, product, categories }) {
                                 />
                             </div>
                         </form>
+                        {/* Informazioni Prodotto */}
                     </div>
                 </div>
                 <div className="w-full rounded-b-lg shadow-lg">
@@ -160,6 +162,7 @@ export default function ProductForm({ auth, product, categories }) {
                         <p className="text-xl">Dettagli Prezzi</p>
                     </div>
                     <div className="p-5">
+                        {/* Prezzi */}
                         <div className="grid grid-cols-1 gap-5 md:grid-cols-2">
                             <div>
                                 <InputLabel
@@ -278,6 +281,7 @@ export default function ProductForm({ auth, product, categories }) {
                         <span className="mt-2 block ">
                             Non sarà visibile ai clienti
                         </span>
+                        {/* Prezzi */}
                     </div>
                 </div>
                 <div className="w-full rounded-b-lg shadow-lg">
