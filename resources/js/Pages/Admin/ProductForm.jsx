@@ -1,11 +1,14 @@
+import { useEffect, useState } from 'react';
 import InputError from '@/Components/InputError';
 import InputLabel from '@/Components/InputLabel';
 import TextInput from '@/Components/TextInput';
+import ToggleSwitch from '@/Components/ToggleSwitch';
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
 import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 import { CKEditor } from '@ckeditor/ckeditor5-react';
 import { Head, Link, useForm } from '@inertiajs/react';
 import { BiHomeAlt2 } from 'react-icons/bi';
+import { AnimatePresence, motion } from 'framer-motion';
 
 export default function ProductForm({ auth, product, categories }) {
     const { data, setData, post, put, processing, errors } = useForm(
@@ -30,10 +33,14 @@ export default function ProductForm({ auth, product, categories }) {
                   discounted_price: '',
                   cost: '',
                   quantity: '',
-                  track_quantity: '',
-                  sell_out_of_stock: '',
+                  track_quantity: true,
+                  sell_out_of_stock: false,
                   status: '',
               },
+    );
+
+    const [quantityVisibility, setQuantityVisibility] = useState(
+        data.track_quantity,
     );
 
     const submit = (event) => {
@@ -124,23 +131,6 @@ export default function ProductForm({ auth, product, categories }) {
                                     value="Descrizione"
                                 />
 
-                                {/* <textarea
-                                    rows="10"
-                                    className={`mt-1 block w-full resize-none rounded-md text-xl shadow-lg ${
-                                        errors.description
-                                            ? 'border-red-500'
-                                            : ''
-                                    } focus:bg-emerald-200`}
-                                    name="description"
-                                    id="description"
-                                    value={data.description}
-                                    onChange={(ev) =>
-                                        setData('description', ev.target.value)
-                                    }
-                                >
-                                    {data.description}
-                                </textarea> */}
-
                                 <CKEditor
                                     editor={ClassicEditor}
                                     data={data.description}
@@ -167,13 +157,254 @@ export default function ProductForm({ auth, product, categories }) {
                     <div className="rounded-t-lg bg-violet-200 p-5 ">
                         <p className="text-xl">Dettagli Prezzi</p>
                     </div>
-                    <div className="p-5">{/* Informazioni sui Prezzi */}</div>
+                    <div className="p-5">
+                        <div className="grid grid-cols-1 gap-5 md:grid-cols-2">
+                            <div>
+                                <InputLabel
+                                    className={`text-xl ${
+                                        errors.price ? 'text-red-500' : ''
+                                    }`}
+                                    htmlFor="price"
+                                    value="Prezzo"
+                                />
+
+                                <div className="mt-1 flex">
+                                    <span className="inline-flex items-center rounded-l-md border border-r-0 border-black bg-gray-200 px-3 text-sm text-gray-900 dark:border-gray-600 dark:bg-gray-600 dark:text-gray-400">
+                                        <p className="text-lg">€</p>
+                                    </span>
+                                    <input
+                                        form="productForm"
+                                        type="text"
+                                        id="price"
+                                        name="price"
+                                        placeholder="0.00"
+                                        value={data.price}
+                                        className={`block w-full min-w-0 flex-1 rounded-none rounded-r-lg border-l-0 p-3 shadow-lg focus:border-indigo-500 focus:ring-indigo-500 ${
+                                            errors.price ? 'border-red-500' : ''
+                                        } focus:bg-emerald-200`}
+                                        autoComplete="off"
+                                        onChange={(event) =>
+                                            setData('price', event.target.value)
+                                        }
+                                    />
+                                </div>
+
+                                <InputError
+                                    className="mt-2 text-xl"
+                                    message={errors.price}
+                                />
+                            </div>
+                            <div>
+                                <InputLabel
+                                    className={`text-xl ${
+                                        errors.discounted_price
+                                            ? 'text-red-500'
+                                            : ''
+                                    }`}
+                                    htmlFor="discounted_price"
+                                    value="Prezzo Scontato"
+                                />
+
+                                <div className="mt-1 flex">
+                                    <span className="inline-flex items-center rounded-l-md border border-r-0 border-black bg-gray-200 px-3 text-sm text-gray-900 dark:border-gray-600 dark:bg-gray-600 dark:text-gray-400">
+                                        <p className="text-lg">€</p>
+                                    </span>
+                                    <input
+                                        form="productForm"
+                                        type="text"
+                                        id="discounted_price"
+                                        name="discounted_price"
+                                        placeholder="0.00"
+                                        value={data.discounted_price}
+                                        className={`block w-full min-w-0 flex-1 rounded-none rounded-r-lg border-l-0 p-3 shadow-lg focus:border-indigo-500 focus:ring-indigo-500 ${
+                                            errors.discounted_price
+                                                ? 'border-red-500'
+                                                : ''
+                                        } focus:bg-emerald-200`}
+                                        autoComplete="off"
+                                        onChange={(event) =>
+                                            setData(
+                                                'discounted_price',
+                                                event.target.value,
+                                            )
+                                        }
+                                    />
+                                </div>
+
+                                <InputError
+                                    className="mt-2 text-xl"
+                                    message={errors.discounted_price}
+                                />
+                            </div>
+                        </div>
+
+                        <div className="mt-5">
+                            <InputLabel
+                                className={`text-xl ${
+                                    errors.cost ? 'text-red-500' : ''
+                                }`}
+                                htmlFor="cost"
+                                value="Costo per Articolo"
+                            />
+
+                            <div className="mt-1 flex">
+                                <span className="inline-flex items-center rounded-l-md border border-r-0 border-black bg-gray-200 px-3 text-sm text-gray-900 dark:border-gray-600 dark:bg-gray-600 dark:text-gray-400">
+                                    <p className="text-lg">€</p>
+                                </span>
+                                <input
+                                    form="productForm"
+                                    type="text"
+                                    id="cost"
+                                    name="cost"
+                                    placeholder="0.00"
+                                    value={data.cost}
+                                    className={`block w-full min-w-0 flex-1 rounded-none rounded-r-lg border-l-0 p-3 shadow-lg focus:border-indigo-500 focus:ring-indigo-500 ${
+                                        errors.cost ? 'border-red-500' : ''
+                                    } focus:bg-emerald-200`}
+                                    autoComplete="off"
+                                    onChange={(event) =>
+                                        setData('cost', event.target.value)
+                                    }
+                                />
+                            </div>
+
+                            <InputError
+                                className="mt-2 text-xl"
+                                message={errors.cost}
+                            />
+                        </div>
+                        <span className="mt-2 block ">
+                            Non sarà visibile ai clienti
+                        </span>
+                    </div>
                 </div>
                 <div className="w-full rounded-b-lg shadow-lg">
                     <div className="rounded-t-lg bg-violet-200 p-5 ">
                         <p className="text-xl">Inventario</p>
                     </div>
-                    <div className="p-5">{/* Inventario */}</div>
+                    <div className="p-5">
+                        {/* Inventario */}
+                        <div>
+                            <InputLabel
+                                className={`text-xl ${
+                                    errors.sku ? 'text-red-500' : ''
+                                }`}
+                                htmlFor="sku"
+                                value="Codice Articolo"
+                            />
+
+                            <TextInput
+                                id="sku"
+                                name="sku"
+                                form="productForm"
+                                value={data.sku}
+                                className={`mt-1 block w-full ${
+                                    errors.sku ? 'border-red-500' : ''
+                                } focus:bg-emerald-200`}
+                                autoComplete="off"
+                                onChange={(event) =>
+                                    setData('sku', event.target.value)
+                                }
+                                required
+                            />
+
+                            <InputError
+                                className="mt-2 text-xl"
+                                message={errors.sku}
+                            />
+                        </div>
+
+                        <div className="grid grid-cols-1 md:grid-cols-2">
+                            <div className="mt-14 flex items-center space-x-3">
+                                <InputLabel
+                                    className="text-xl"
+                                    htmlFor="track_quantity"
+                                    value="Traccia Quantità"
+                                />
+
+                                <ToggleSwitch
+                                    name="track_quantity"
+                                    id="track_quantity"
+                                    value={data.track_quantity}
+                                    onChange={(ev) => {
+                                        setData(
+                                            'track_quantity',
+                                            ev.target.checked,
+                                        );
+                                        setQuantityVisibility(
+                                            !quantityVisibility,
+                                        );
+                                    }}
+                                    checked={data.track_quantity}
+                                />
+                            </div>
+                            <AnimatePresence>
+                                {quantityVisibility && (
+                                    <motion.div
+                                        className="mt-5"
+                                        initial={{ opacity: 0 }}
+                                        animate={{ opacity: 1 }}
+                                        exit={{ opacity: 0 }}
+                                        transition={{ duration: 0.3 }}
+                                    >
+                                        <InputLabel
+                                            className={`text-xl ${
+                                                errors.quantity
+                                                    ? 'text-red-500'
+                                                    : ''
+                                            }`}
+                                            htmlFor="quantity"
+                                            value="Quantità"
+                                        />
+
+                                        <TextInput
+                                            id="quantity"
+                                            name="quantity"
+                                            value={data.quantity}
+                                            className={`mt-1 block w-full ${
+                                                errors.quantity
+                                                    ? 'border-red-500'
+                                                    : ''
+                                            } focus:bg-emerald-200`}
+                                            autoComplete="off"
+                                            onChange={(event) =>
+                                                setData(
+                                                    'quantity',
+                                                    event.target.value,
+                                                )
+                                            }
+                                            required
+                                        />
+
+                                        <InputError
+                                            className="mt-2 text-xl"
+                                            message={errors.quantity}
+                                        />
+                                    </motion.div>
+                                )}
+                            </AnimatePresence>
+                        </div>
+                        <div className="mt-5 flex items-center space-x-3">
+                            <InputLabel
+                                className="text-xl"
+                                htmlFor="sell_out_of_stock"
+                                value="Esaurito"
+                            />
+
+                            <ToggleSwitch
+                                name="sell_out_of_stock"
+                                id="sell_out_of_stock"
+                                value={data.sell_out_of_stock}
+                                onChange={(ev) => {
+                                    setData(
+                                        'sell_out_of_stock',
+                                        ev.target.checked,
+                                    );
+                                }}
+                                checked={data.sell_out_of_stock}
+                            />
+                        </div>
+                    </div>
                 </div>
                 <div className="w-full rounded-b-lg shadow-lg">
                     <div className="rounded-t-lg bg-violet-200 p-5 ">
