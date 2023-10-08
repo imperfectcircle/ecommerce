@@ -15,13 +15,13 @@ export default function UserPermissionForm({ user, permissions }) {
         setEnable(!enable);
     };
 
-    function chunkArray(array, size) {
+    const chunkArray = (array, size) => {
         const result = [];
         for (let i = 0; i < array.length; i += size) {
             result.push(array.slice(i, i + size));
         }
         return result;
-    }
+    };
 
     const submit = (event) => {
         event.preventDefault();

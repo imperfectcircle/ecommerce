@@ -24,6 +24,7 @@ export default function ProductForm({ auth, product, categories }) {
                   track_quantity: product.track_quantity,
                   sell_out_of_stock: product.sell_out_of_stock,
                   status: product.status,
+                  category_id: product.category_id,
               }
             : {
                   name: '',
@@ -36,6 +37,7 @@ export default function ProductForm({ auth, product, categories }) {
                   track_quantity: true,
                   sell_out_of_stock: false,
                   status: '',
+                  category_id: '',
               },
     );
 
@@ -325,6 +327,7 @@ export default function ProductForm({ auth, product, categories }) {
                                 <ToggleSwitch
                                     name="track_quantity"
                                     id="track_quantity"
+                                    form="productForm"
                                     value={data.track_quantity}
                                     onChange={(ev) => {
                                         setData(
@@ -360,6 +363,7 @@ export default function ProductForm({ auth, product, categories }) {
                                         <TextInput
                                             id="quantity"
                                             name="quantity"
+                                            form="productForm"
                                             value={data.quantity}
                                             className={`mt-1 block w-full ${
                                                 errors.quantity
@@ -394,6 +398,7 @@ export default function ProductForm({ auth, product, categories }) {
                             <ToggleSwitch
                                 name="sell_out_of_stock"
                                 id="sell_out_of_stock"
+                                form="productForm"
                                 value={data.sell_out_of_stock}
                                 onChange={(ev) => {
                                     setData(
@@ -404,6 +409,7 @@ export default function ProductForm({ auth, product, categories }) {
                                 checked={data.sell_out_of_stock}
                             />
                         </div>
+                        {/* Inventario */}
                     </div>
                 </div>
                 <div className="w-full rounded-b-lg shadow-lg">
@@ -422,13 +428,117 @@ export default function ProductForm({ auth, product, categories }) {
                     <div className="rounded-t-lg bg-violet-200 p-5 ">
                         <p className="text-xl">Stato del Prodotto</p>
                     </div>
-                    <div className="p-5">{/* Stato del Prodotto */}</div>
+                    <div className="p-5">
+                        {/* Stato del Prodotto */}
+                        <div className="flex items-center gap-10">
+                            <div className="">
+                                <InputLabel
+                                    className={`text-xl ${
+                                        errors.status ? 'text-red-500' : ''
+                                    }`}
+                                    htmlFor="status"
+                                    value="Stato"
+                                />
+                                <select
+                                    className="mb-3 mt-1 rounded-lg shadow-lg"
+                                    name="status"
+                                    id="status"
+                                    form="productForm"
+                                    onChange={(event) =>
+                                        setData('status', event.target.value)
+                                    }
+                                >
+                                    <option value="">
+                                        -- Scegli uno Stato --
+                                    </option>
+                                    <option
+                                        selected={data.status === 'draft'}
+                                        value="draft"
+                                    >
+                                        Bozza
+                                    </option>
+                                    <option
+                                        selected={data.status === 'review'}
+                                        value="review"
+                                    >
+                                        Revisione
+                                    </option>
+                                    <option
+                                        selected={data.status === 'active'}
+                                        value="active"
+                                    >
+                                        Pubblicato
+                                    </option>
+                                </select>
+                            </div>
+                            <div className="flex items-center">
+                                <div
+                                    className={`h-3 rounded-full p-3 ${
+                                        data.status === 'draft'
+                                            ? 'bg-red-500'
+                                            : data.status === 'review'
+                                            ? 'bg-amber-500'
+                                            : data.status === 'active'
+                                            ? 'bg-emerald-500'
+                                            : ''
+                                    }`}
+                                ></div>
+                                <p className="pl-1 text-lg">
+                                    {data.status === 'draft'
+                                        ? 'Bozza'
+                                        : data.status === 'review'
+                                        ? 'Revisione'
+                                        : data.status === 'active'
+                                        ? 'Pubblicato'
+                                        : ''}
+                                </p>
+                            </div>
+                        </div>
+                        {/* Stato del Prodotto */}
+                    </div>
                 </div>
                 <div className="w-full rounded-b-lg shadow-lg">
                     <div className="rounded-t-lg bg-violet-200 p-5 ">
-                        <p className="text-xl">Gestione del Prodotto</p>
+                        <p className="text-xl">Categoria del Prodotto</p>
                     </div>
-                    <div className="p-5">{/* Gestione del Prodotto */}</div>
+                    <div className="p-5">
+                        {/* Categoria del Prodotto */}
+                        <div className="">
+                            <div className="">
+                                <InputLabel
+                                    className={`text-xl ${
+                                        errors.category_id ? 'text-red-500' : ''
+                                    }`}
+                                    htmlFor="category_id"
+                                    value="Categoria di Appartenenza"
+                                />
+                                <select
+                                    className="mb-3 mt-1 w-full rounded-lg shadow-lg"
+                                    name="category_id"
+                                    id="category_id"
+                                    form="productForm"
+                                    onChange={(event) =>
+                                        setData('parent_id', event.target.value)
+                                    }
+                                >
+                                    <option value="">
+                                        -- Scegli una categoria --
+                                    </option>
+                                    {categories.map((category) => (
+                                        <option
+                                            value={category.id}
+                                            selected={
+                                                category.id === data.category_id
+                                            }
+                                        >
+                                            {category.name}
+                                        </option>
+                                    ))}
+                                </select>
+                            </div>
+                        </div>
+                        {/* Categoria del Prodotto */}
+                    </div>
                 </div>
             </div>
             <div className="mt-10 text-center">
