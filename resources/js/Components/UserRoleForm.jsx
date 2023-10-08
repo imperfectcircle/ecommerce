@@ -1,6 +1,7 @@
 import { useForm } from '@inertiajs/react';
 import InputLabel from './InputLabel';
 import PrimaryButton from './PrimaryButton';
+import ToggleSwitch from './ToggleSwitch';
 
 export default function UserRoleForm({ user, roles }) {
     const { data, setData, post, processing, errors } = useForm({
@@ -31,8 +32,7 @@ export default function UserRoleForm({ user, roles }) {
                             value={role.name}
                         />
 
-                        <input
-                            type="checkbox"
+                        <ToggleSwitch
                             name={`roles[${role.name}]`}
                             id={`roles[${role.name}]`}
                             value={role.name}

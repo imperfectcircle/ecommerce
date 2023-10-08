@@ -1,11 +1,19 @@
 import { useForm } from '@inertiajs/react';
 import InputLabel from './InputLabel';
 import PrimaryButton from './PrimaryButton';
+import { useState } from 'react';
+import ToggleSwitch from './ToggleSwitch';
 
 export default function UserPermissionForm({ user, permissions }) {
     const { data, setData, post, processing, errors } = useForm({
         permissions: user.permissions.map((permission) => permission.name),
     });
+
+    const [enable, setEnable] = useState(false);
+
+    const toggleHandler = () => {
+        setEnable(!enable);
+    };
 
     function chunkArray(array, size) {
         const result = [];
@@ -37,7 +45,7 @@ export default function UserPermissionForm({ user, permissions }) {
                     ruoli
                 </p>
                 {groupedPermissions.map((group, _) => (
-                    <div key={_} className="flex flex-wrap space-x-3 pt-5">
+                    <div key={_} className="flex flex-wrap space-x-5 pt-5">
                         {group.map((permission) => (
                             <div
                                 key={permission.id}
@@ -49,8 +57,7 @@ export default function UserPermissionForm({ user, permissions }) {
                                     value={permission.name}
                                 />
 
-                                <input
-                                    type="checkbox"
+                                <ToggleSwitch
                                     name={`permissions[${permission.name}]`}
                                     id={`permissions[${permission.name}]`}
                                     value={permission.name}
