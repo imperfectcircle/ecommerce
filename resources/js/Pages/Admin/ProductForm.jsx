@@ -9,6 +9,7 @@ import { CKEditor } from '@ckeditor/ckeditor5-react';
 import { Head, Link, useForm } from '@inertiajs/react';
 import { BiHomeAlt2 } from 'react-icons/bi';
 import { AnimatePresence, motion } from 'framer-motion';
+import ImageUploader from '@/Components/ImageUploader';
 
 export default function ProductForm({ auth, product, categories }) {
     const { data, setData, post, put, processing, errors } = useForm(
@@ -155,7 +156,11 @@ export default function ProductForm({ auth, product, categories }) {
                     <div className="rounded-t-lg bg-violet-200 p-5 ">
                         <p className="text-xl">Immagini</p>
                     </div>
-                    <div className="p-5">{/* Immagini */}</div>
+                    <div className="p-5">
+                        {/* Immagini */}
+                        <ImageUploader className="mt-2 rounded-lg border border-gray-400 bg-gray-100 p-16 text-center shadow-lg" />
+                        {/* Immagini */}
+                    </div>
                 </div>
                 <div className="w-full rounded-b-lg shadow-lg">
                     <div className="rounded-t-lg bg-violet-200 p-5 ">
@@ -447,6 +452,7 @@ export default function ProductForm({ auth, product, categories }) {
                                     className="mb-3 mt-1 rounded-lg shadow-lg"
                                     name="status"
                                     id="status"
+                                    value={data.status}
                                     form="productForm"
                                     onChange={(event) =>
                                         setData('status', event.target.value)
@@ -455,24 +461,9 @@ export default function ProductForm({ auth, product, categories }) {
                                     <option value="">
                                         -- Scegli uno Stato --
                                     </option>
-                                    <option
-                                        selected={data.status === 'draft'}
-                                        value="draft"
-                                    >
-                                        Bozza
-                                    </option>
-                                    <option
-                                        selected={data.status === 'review'}
-                                        value="review"
-                                    >
-                                        Revisione
-                                    </option>
-                                    <option
-                                        selected={data.status === 'active'}
-                                        value="active"
-                                    >
-                                        Pubblicato
-                                    </option>
+                                    <option value="draft">Bozza</option>
+                                    <option value="review">Revisione</option>
+                                    <option value="active">Pubblicato</option>
                                 </select>
                             </div>
                             <div className="flex items-center">
@@ -521,8 +512,12 @@ export default function ProductForm({ auth, product, categories }) {
                                     name="category_id"
                                     id="category_id"
                                     form="productForm"
+                                    value={data.category_id}
                                     onChange={(event) =>
-                                        setData('parent_id', event.target.value)
+                                        setData(
+                                            'category_id',
+                                            event.target.value,
+                                        )
                                     }
                                 >
                                     <option value="">
@@ -530,10 +525,8 @@ export default function ProductForm({ auth, product, categories }) {
                                     </option>
                                     {categories.map((category) => (
                                         <option
+                                            key={category.id}
                                             value={category.id}
-                                            selected={
-                                                category.id === data.category_id
-                                            }
                                         >
                                             {category.name}
                                         </option>
