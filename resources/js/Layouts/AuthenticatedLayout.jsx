@@ -4,6 +4,7 @@ import { GiHamburgerMenu } from 'react-icons/gi';
 import { HiUserCircle } from 'react-icons/hi';
 import { ImSwitch } from 'react-icons/im';
 import { BsFire } from 'react-icons/bs';
+import { FaBoxes } from 'react-icons/fa';
 import {
     AiOutlineUser,
     AiFillLock,
@@ -106,6 +107,13 @@ export default function AuthenticatedLayout({ user, children }) {
                             <AiOutlineCopyrightCircle className="mr-2" />
                             Brand
                         </Link>
+                        <Link
+                            className="flex items-center transition-all duration-150 hover:font-bold"
+                            href={route('admin.products.index')}
+                        >
+                            <FaBoxes className="mr-2" />
+                            Prodotti
+                        </Link>
                     </div>
                 </aside>
 
@@ -157,6 +165,13 @@ export default function AuthenticatedLayout({ user, children }) {
                 >
                     <AiOutlineCopyrightCircle className="mr-2" />
                     Brand
+                </Link>
+                <Link
+                    className="flex w-full items-center justify-center pt-10 text-2xl text-white transition-all duration-150 hover:bg-white hover:font-bold hover:text-black"
+                    href={route('admin.products.index')}
+                >
+                    <FaBoxes className="mr-2" />
+                    Prodotti
                 </Link>
             </div>
         </>

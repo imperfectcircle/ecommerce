@@ -5,7 +5,8 @@ export default function ToggleSwitch({
     id,
     form,
     onChange,
-    className = '',
+    className,
+    disabled,
 }) {
     return (
         <input
@@ -17,6 +18,7 @@ export default function ToggleSwitch({
             value={value}
             onChange={onChange}
             checked={checked}
+            disabled={disabled}
         />
     );
 }

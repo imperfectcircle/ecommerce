@@ -1,12 +1,16 @@
-import React, { useCallback, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { useDropzone } from 'react-dropzone';
 import InputLabel from './InputLabel';
 import { TiDelete } from 'react-icons/ti';
 
-export default function ImageUploader({ className }) {
+export default function ImageUploader({ className, setData, data }) {
     const [files, setFiles] = useState([]);
     const [rejected, setRejected] = useState([]);
 
+    useEffect(() => {
+        setData({ ...data, images: files });
+    }, [files]);
+    //[JSON.stringify(...files)]
     const onDrop = useCallback((acceptedFiles, rejectedFiles) => {
         if (acceptedFiles?.length) {
             setFiles((previousFiles) => [
@@ -48,7 +52,7 @@ export default function ImageUploader({ className }) {
                 value="Immagini"
             />
 
-            <p className="pt-2">Dimensioni massime 1Mb</p>
+            <p className="pt-2">Dimensioni massime: 1 Mb</p>
 
             <div
                 {...getRootProps({
@@ -98,7 +102,7 @@ export default function ImageUploader({ className }) {
 
             {/* File Accettati */}
             <h3 className="title mt-2 border-b pb-3 text-lg font-semibold text-neutral-600">
-                File
+                Anteprima
             </h3>
 
             <ul className="mt-6 grid grid-cols-1 gap-10 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-6">
