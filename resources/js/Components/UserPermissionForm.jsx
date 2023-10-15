@@ -5,7 +5,7 @@ import { useState } from 'react';
 import ToggleSwitch from './ToggleSwitch';
 
 export default function UserPermissionForm({ user, permissions }) {
-    const { data, setData, post, processing, errors } = useForm({
+    const { data, setData, post, processing } = useForm({
         permissions: user.permissions.map((permission) => permission.name),
     });
 

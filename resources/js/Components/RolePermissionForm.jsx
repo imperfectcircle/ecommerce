@@ -4,7 +4,7 @@ import PrimaryButton from './PrimaryButton';
 import ToggleSwitch from './ToggleSwitch';
 
 export default function RolePermissionForm({ role, permissions }) {
-    const { data, setData, post, processing, errors } = useForm({
+    const { data, setData, post, processing } = useForm({
         permissions: role.permissions.map((permission) => permission.name),
     });
 
@@ -39,7 +39,7 @@ export default function RolePermissionForm({ role, permissions }) {
                 {groupedPermissions.map((group, _) => (
                     <div
                         key={_}
-                        className="flex flex-wrap justify-center space-x-5 pt-5"
+                        className="flex flex-wrap justify-start space-x-5 pt-5"
                     >
                         {group.map((permission) => (
                             <div

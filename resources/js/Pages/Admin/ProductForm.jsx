@@ -12,9 +12,10 @@ import { AnimatePresence, motion } from 'framer-motion';
 import ImageUploader from '@/Components/ImageUploader';
 import { Hourglass } from 'react-loader-spinner';
 import { router } from '@inertiajs/react';
+import OptionsForm from '@/Components/OptionsForm';
 
 export default function ProductForm({ auth, product, categories }) {
-    const { data, setData, post, put, processing, errors } = useForm(
+    const { data, setData, post, processing, errors } = useForm(
         product
             ? {
                   name: product.name,
@@ -32,6 +33,7 @@ export default function ProductForm({ auth, product, categories }) {
                   seo_title: product.seo_title,
                   seo_description: product.seo_description,
                   seo_keywords: product.seo_keywords,
+                  _method: 'put',
                   images: [],
               }
             : {
@@ -58,16 +60,18 @@ export default function ProductForm({ auth, product, categories }) {
         data.track_quantity,
     );
 
+    const [optionsForm, setOptionsForm] = useState(false);
+
+    const handleOptionsForm = () => setOptionsForm(!optionsForm);
+
     const submit = (event) => {
         event.preventDefault();
         if (product) {
-            post(route('admin.products.update', product));
+            router.post(`/admin/products/${product.id}`, data);
             return;
         }
         post(route('admin.products.store'));
     };
-
-    console.log(errors);
 
     return (
         <AuthenticatedLayout user={auth.user}>
@@ -473,11 +477,38 @@ export default function ProductForm({ auth, product, categories }) {
                                 {/* Inventario */}
                             </div>
                         </div>
+
+                        <div className="w-full rounded-b-lg shadow-lg">
+                            <div className="rounded-t-lg bg-violet-200 p-5 ">
+                                <p className="text-xl">Opzioni</p>
+                            </div>
+                            <div className="p-5">
+                                {/* Opzioni */}
+                                <div className="mt-2 flex items-center space-x-3">
+                                    <InputLabel
+                                        className="text-xl"
+                                        htmlFor="optionsCheckbox"
+                                        value="Questo prodotto ha opzioni come taglia o colore"
+                                    />
+
+                                    <ToggleSwitch
+                                        name="optionsCheckbox"
+                                        id="optionsCheckbox"
+                                        onChange={handleOptionsForm}
+                                    />
+                                </div>
+                                <div className="mt-5">
+                                    {optionsForm && <OptionsForm />}
+                                </div>
+                                {/* Opzioni */}
+                            </div>
+                        </div>
+
                         <div className="w-full rounded-b-lg shadow-lg">
                             <div className="rounded-t-lg bg-violet-200 p-5 ">
                                 <p className="text-xl">Varianti</p>
                             </div>
-                            <div className="p-5">{/* Versioni */}</div>
+                            <div className="p-5">{/* Varianti */}</div>
                         </div>
                         <div className="w-full rounded-b-lg shadow-lg">
                             <div className="rounded-t-lg bg-violet-200 p-5 ">

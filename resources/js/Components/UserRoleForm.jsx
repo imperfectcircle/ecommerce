@@ -4,7 +4,7 @@ import PrimaryButton from './PrimaryButton';
 import ToggleSwitch from './ToggleSwitch';
 
 export default function UserRoleForm({ user, roles }) {
-    const { data, setData, post, processing, errors } = useForm({
+    const { data, setData, post, processing } = useForm({
         roles: user.roles.map((role) => role.name),
     });
 
