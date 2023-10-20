@@ -37,7 +37,11 @@ class StoreProductRequest extends FormRequest
             'canonical_url' => 'sometimes|nullable|string|max:255|url',
             'seo_title' => 'sometimes|nullable|string|max:255',
             'seo_description' => 'sometimes|nullable|string|max:255',
-            'seo_keywords' => 'sometimes|nullable|string|max:255'
+            'seo_keywords' => 'sometimes|nullable|string|max:255',
+            'options' => 'nullable|array',
+            'options.*' => 'int|exists:options,id',
+            'variations' => 'nullable|array',
+            'variations.*' => 'int|exists:variations,id',
         ];
     }
 

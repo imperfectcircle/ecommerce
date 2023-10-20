@@ -20,4 +20,8 @@ class Option extends Model
     public function values() {
         return $this->hasMany(Value::class);
     }
+
+    public function variations() {
+        return $this->hasMany(Variation::class);
+    }
 }

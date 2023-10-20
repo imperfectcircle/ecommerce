@@ -39,7 +39,7 @@ class UpdateProductRequest extends FormRequest
             'canonical_url' => 'sometimes|nullable|string|max:255|url',
             'seo_title' => 'sometimes|nullable|string|max:255',
             'seo_description' => 'sometimes|nullable|string|max:255',
-            'seo_keywords' => 'sometimes|nullable|string|max:255'
+            'seo_keywords' => 'sometimes|nullable|string|max:255',
         ];
     }
 

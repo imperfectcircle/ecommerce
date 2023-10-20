@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import InputError from '@/Components/InputError';
 import InputLabel from '@/Components/InputLabel';
 import TextInput from '@/Components/TextInput';
@@ -6,15 +6,19 @@ import ToggleSwitch from '@/Components/ToggleSwitch';
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
 import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 import { CKEditor } from '@ckeditor/ckeditor5-react';
-import { Head, Link, useForm } from '@inertiajs/react';
+import { Head, Link, useForm, usePage } from '@inertiajs/react';
 import { BiHomeAlt2 } from 'react-icons/bi';
 import { AnimatePresence, motion } from 'framer-motion';
 import ImageUploader from '@/Components/ImageUploader';
 import { Hourglass } from 'react-loader-spinner';
 import { router } from '@inertiajs/react';
 import OptionsForm from '@/Components/OptionsForm';
+import VariationsForm from '@/Components/VariationsForm';
 
 export default function ProductForm({ auth, product, categories }) {
+    const { flash } = usePage().props;
+    const option = flash.option;
+    const variation = flash.variations;
     const { data, setData, post, processing, errors } = useForm(
         product
             ? {
@@ -52,9 +56,23 @@ export default function ProductForm({ auth, product, categories }) {
                   seo_title: '',
                   seo_description: '',
                   seo_keywords: '',
+                  variations: [],
+                  options: [],
                   images: [],
               },
     );
+
+    useEffect(() => {
+        if (option !== null) data.options.push(option.id);
+    }, [option]);
+
+    useEffect(() => {
+        if (variation !== null) {
+            variation.forEach((el) => {
+                data.variations.push(el.id);
+            });
+        }
+    }, [variation]);
 
     const [quantityVisibility, setQuantityVisibility] = useState(
         data.track_quantity,
@@ -478,37 +496,47 @@ export default function ProductForm({ auth, product, categories }) {
                             </div>
                         </div>
 
-                        <div className="w-full rounded-b-lg shadow-lg">
-                            <div className="rounded-t-lg bg-violet-200 p-5 ">
-                                <p className="text-xl">Opzioni</p>
-                            </div>
-                            <div className="p-5">
-                                {/* Opzioni */}
-                                <div className="mt-2 flex items-center space-x-3">
-                                    <InputLabel
-                                        className="text-xl"
-                                        htmlFor="optionsCheckbox"
-                                        value="Questo prodotto ha opzioni come taglia o colore"
-                                    />
+                        {!product && (
+                            <div className="w-full rounded-b-lg shadow-lg">
+                                <div className="rounded-t-lg bg-violet-200 p-5 ">
+                                    <p className="text-xl">Opzioni</p>
+                                </div>
+                                <div className="p-5">
+                                    {/* Opzioni */}
+                                    <div className="mt-2 flex items-center space-x-3">
+                                        <InputLabel
+                                            className="text-xl"
+                                            htmlFor="optionsCheckbox"
+                                            value="Questo prodotto ha opzioni come taglia o colore"
+                                        />
 
-                                    <ToggleSwitch
-                                        name="optionsCheckbox"
-                                        id="optionsCheckbox"
-                                        onChange={handleOptionsForm}
-                                    />
+                                        <ToggleSwitch
+                                            name="optionsCheckbox"
+                                            id="optionsCheckbox"
+                                            onChange={handleOptionsForm}
+                                        />
+                                    </div>
+                                    <div className="mt-5">
+                                        {optionsForm && (
+                                            <OptionsForm product={product} />
+                                        )}
+                                    </div>
+                                    {/* Opzioni */}
                                 </div>
-                                <div className="mt-5">
-                                    {optionsForm && <OptionsForm />}
-                                </div>
-                                {/* Opzioni */}
                             </div>
-                        </div>
+                        )}
 
                         <div className="w-full rounded-b-lg shadow-lg">
                             <div className="rounded-t-lg bg-violet-200 p-5 ">
                                 <p className="text-xl">Varianti</p>
                             </div>
-                            <div className="p-5">{/* Varianti */}</div>
+                            {variation && (
+                                <div className="p-5">
+                                    {/* Varianti */}
+                                    <VariationsForm variations={variation} />
+                                    {/* Varianti */}
+                                </div>
+                            )}
                         </div>
                         <div className="w-full rounded-b-lg shadow-lg">
                             <div className="rounded-t-lg bg-violet-200 p-5 ">

@@ -30,4 +30,8 @@ class Product extends Model
     public function options() {
         return $this->belongsToMany(Option::class);
     }
+
+    public function variations() {
+        return $this->belongsToMany(Variation::class);
+    }
 }

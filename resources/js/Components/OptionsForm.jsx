@@ -6,8 +6,9 @@ import { BsFillTrash3Fill } from 'react-icons/bs';
 import { useState } from 'react';
 
 export default function OptionsForm() {
-    const { data, setData, post, processing, errors } = useForm({
+    const { data, setData, post, processing } = useForm({
         option: { name: '', value: '', values: [] },
+        _method: 'put',
     });
 
     const [nameDisabled, setNameDisabled] = useState(false);
@@ -30,6 +31,8 @@ export default function OptionsForm() {
     const submit = (event) => {
         event.preventDefault();
         post(route('admin.options.store'));
+        setNameDisabled(false);
+        setData({ option: { name: '', value: '', values: [] } });
     };
 
     return (

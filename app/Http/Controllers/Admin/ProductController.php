@@ -5,7 +5,11 @@ namespace App\Http\Controllers\Admin;
 use Inertia\Inertia;
 use App\Models\Product;
 use App\Models\Category;
+use App\Actions\Product\LinkOption;
+use Chefhasteeth\Pipeline\Pipeline;
 use App\Http\Controllers\Controller;
+use App\Actions\Product\UploadImages;
+use App\Actions\Product\AttachVariations;
 use App\Http\Requests\StoreProductRequest;
 use App\Http\Requests\UpdateProductRequest;
 use CloudinaryLabs\CloudinaryLaravel\Facades\Cloudinary;
@@ -44,32 +48,32 @@ class ProductController extends Controller
      */
     public function store(StoreProductRequest $request)
     {
-        $product = Product::create(
-            $request
-                ->safe()
-                ->collect()
-                ->filter(fn($value) => !is_null($value))
-                ->except(['images'])
-                ->all()
-        );
-
-        $images = $request->file('images');
-
-        if ($images !== null) {
-            foreach ($images as $image) {
-                Cloudinary::upload($image->getRealPath(), [
-                    'transformation' => [
-                        'width' => '700',
-                        'quality' => 'auto',
-                        'crop' => 'scale',
-                    ]
-                ])->getSecurePath();
-
-                $product->attachMedia($image);
-            }
-        }
-
-        return to_route('admin.products.index')->with('message', 'Prodotto creato con successo');
+        return Pipeline::make()
+            ->send($request->safe()->collect()->filter())
+            ->through([
+                fn($passable) => Product::create(
+                    $passable
+                    ->filter(fn($value) => !is_null($value))
+                    ->except(['images', 'options', 'variations'])
+                    ->all()
+                ),
+                fn($passable) => LinkOption::run(
+                    $passable,
+                    $request->validated('options', []),
+                ),
+                fn($passable) => AttachVariations::run(
+                    $passable,
+                    $request->validated('variations', []),
+                ),
+                fn($passable) => collect($request->validated('images'))->each(
+                    function ($image) use ($passable) {
+                        Cloudinary::upload($image->getRealPath())->getSecurePath();
+                        $passable->attachMedia($image);
+                    }
+                ),
+            ])->then(
+                fn() => to_route('admin.products.index')->with('message', 'Prodotto creato con successo')
+            );
     }
 
     /**
@@ -95,7 +99,36 @@ class ProductController extends Controller
      */
     public function update(UpdateProductRequest $request, Product $product)
     {
-        $product->update(
+        return Pipeline::make()
+            ->send(
+                $request
+                    ->safe()
+                    ->collect()
+                    ->filter(),
+            )
+            ->through([
+                function ($passable) use ($product) {
+                    $product->update(
+                        $passable->except(['images', 'options'])->all(),
+                    );
+
+                    return $product;
+                },
+                fn($passable) => LinkOption::run(
+                    $passable,
+                    $request->validated('options'),
+                ),
+                fn($passable) => collect($request->validated('images'))->each(
+                    function ($image) use ($passable) {
+                        Cloudinary::upload($image->getRealPath())->getSecurePath();
+                        $passable->attachMedia($image);
+                    }
+                ),
+            ])
+            ->then(
+                fn() => to_route('admin.products.index')->with('message', 'Prodotto aggiornato con successo')
+            );
+        /*$product->update(
             $request
                 ->safe()
                 ->collect()
@@ -120,7 +153,7 @@ class ProductController extends Controller
             }
         }
 
-        return to_route('admin.products.index')->with('message', 'Prodotto aggiornato con successo');
+        return to_route('admin.products.index')->with('message', 'Prodotto aggiornato con successo');*/
     }
 
     /**

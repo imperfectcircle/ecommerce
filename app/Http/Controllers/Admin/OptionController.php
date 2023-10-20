@@ -35,7 +35,9 @@ class OptionController extends Controller
 
         $option->values()->createMany($request->all()['values']);
 
-        return redirect()->back(fallback: route('admin.products.create', $option))->with('message', 'Opzioni aggiunte con successo');
+        $option->variations()->createMany($option->values->map(fn($value) => ['variant' => $value->value]));
+
+        return redirect()->back()->with(['option' => $option, 'variations' => $option->variations, 'message' => 'Opzioni aggiunte con successo.']);
     }
 
     /**
@@ -43,7 +45,7 @@ class OptionController extends Controller
      */
     public function show(Option $option)
     {
-        return Inertia::render('admin.options.show', compact('option'));
+        return Inertia::render('Admin/ProductForm', compact('option'));
     }
 
     /**
@@ -65,7 +67,7 @@ class OptionController extends Controller
 
         $option->values()->createMany($request->all()['values']);
 
-        return Inertia::render('admin.options.show', compact('option'));
+        return redirect()->back()->with('option', $option);
     }
 
     /**
