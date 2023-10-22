@@ -37,6 +37,7 @@ export default function ProductForm({ auth, product, categories }) {
                   seo_title: product.seo_title,
                   seo_description: product.seo_description,
                   seo_keywords: product.seo_keywords,
+                  variations: product.variations,
                   _method: 'put',
                   images: [],
               }
@@ -90,6 +91,8 @@ export default function ProductForm({ auth, product, categories }) {
         }
         post(route('admin.products.store'));
     };
+
+    console.log(errors);
 
     return (
         <AuthenticatedLayout user={auth.user}>
@@ -475,7 +478,7 @@ export default function ProductForm({ auth, product, categories }) {
                                     <InputLabel
                                         className="text-xl"
                                         htmlFor="sell_out_of_stock"
-                                        value="Esaurito"
+                                        value="Vendi anche se esaurito"
                                     />
 
                                     <ToggleSwitch
@@ -530,6 +533,7 @@ export default function ProductForm({ auth, product, categories }) {
                             <div className="rounded-t-lg bg-violet-200 p-5 ">
                                 <p className="text-xl">Varianti</p>
                             </div>
+
                             {variation && (
                                 <div className="p-5">
                                     {/* Varianti */}
@@ -537,6 +541,282 @@ export default function ProductForm({ auth, product, categories }) {
                                     {/* Varianti */}
                                 </div>
                             )}
+                            <div className="mt-5">
+                                {product &&
+                                    data.variations.map((variation, index) => (
+                                        <div
+                                            key={index}
+                                            className="space-y-3 px-5"
+                                        >
+                                            <div className="pt-3">
+                                                <InputLabel
+                                                    className={`text-xl ${
+                                                        errors.variant
+                                                            ? 'text-red-500'
+                                                            : ''
+                                                    }`}
+                                                    htmlFor={`variant-${index}`}
+                                                    value="Variante"
+                                                />
+
+                                                <TextInput
+                                                    id={`variant-${index}`}
+                                                    name={`variations[${index}].variant`}
+                                                    form="productForm"
+                                                    value={variation.variant}
+                                                    className={`mt-1 block w-full ${
+                                                        errors.variant
+                                                            ? 'border-red-500'
+                                                            : ''
+                                                    } focus:bg-emerald-200`}
+                                                    autoComplete="off"
+                                                    onChange={(event) =>
+                                                        setData((prevData) => ({
+                                                            ...prevData,
+                                                            variations:
+                                                                prevData.variations.map(
+                                                                    (v, i) =>
+                                                                        i ===
+                                                                        index
+                                                                            ? {
+                                                                                  ...v,
+                                                                                  variant:
+                                                                                      event
+                                                                                          .target
+                                                                                          .value,
+                                                                              }
+                                                                            : v,
+                                                                ),
+                                                        }))
+                                                    }
+                                                />
+
+                                                <InputError
+                                                    className="mt-2 text-xl"
+                                                    message={errors.variant}
+                                                />
+                                            </div>
+                                            <div className="flex items-center justify-center gap-5">
+                                                <div className="w-full">
+                                                    <InputLabel
+                                                        className={`text-xl ${
+                                                            errors.sku
+                                                                ? 'text-red-500'
+                                                                : ''
+                                                        }`}
+                                                        htmlFor={`sku-${index}`}
+                                                        value="Codice Prodotto"
+                                                    />
+
+                                                    <TextInput
+                                                        id={`sku-${index}`}
+                                                        name={`variations[${index}].sku`}
+                                                        form="productForm"
+                                                        value={variation.sku}
+                                                        className={`mt-1 block w-full ${
+                                                            errors.sku
+                                                                ? 'border-red-500'
+                                                                : ''
+                                                        } focus:bg-emerald-200`}
+                                                        autoComplete="off"
+                                                        onChange={(event) =>
+                                                            setData(
+                                                                (prevData) => ({
+                                                                    ...prevData,
+                                                                    variations:
+                                                                        prevData.variations.map(
+                                                                            (
+                                                                                v,
+                                                                                i,
+                                                                            ) =>
+                                                                                i ===
+                                                                                index
+                                                                                    ? {
+                                                                                          ...v,
+                                                                                          sku: event
+                                                                                              .target
+                                                                                              .value,
+                                                                                      }
+                                                                                    : v,
+                                                                        ),
+                                                                }),
+                                                            )
+                                                        }
+                                                    />
+
+                                                    <InputError
+                                                        className="mt-2 text-xl"
+                                                        message={errors.sku}
+                                                    />
+                                                </div>
+                                                <div className="w-full">
+                                                    <InputLabel
+                                                        className={`text-xl ${
+                                                            errors.price
+                                                                ? 'text-red-500'
+                                                                : ''
+                                                        }`}
+                                                        htmlFor={`price-${index}`}
+                                                        value="Prezzo"
+                                                    />
+
+                                                    <TextInput
+                                                        id={`price-${index}`}
+                                                        name={`variations[${index}].price`}
+                                                        form="productForm"
+                                                        value={variation.price}
+                                                        className={`mt-1 block w-full ${
+                                                            errors.price
+                                                                ? 'border-red-500'
+                                                                : ''
+                                                        } focus:bg-emerald-200`}
+                                                        autoComplete="off"
+                                                        onChange={(event) =>
+                                                            setData(
+                                                                (prevData) => ({
+                                                                    ...prevData,
+                                                                    variations:
+                                                                        prevData.variations.map(
+                                                                            (
+                                                                                v,
+                                                                                i,
+                                                                            ) =>
+                                                                                i ===
+                                                                                index
+                                                                                    ? {
+                                                                                          ...v,
+                                                                                          price: event
+                                                                                              .target
+                                                                                              .value,
+                                                                                      }
+                                                                                    : v,
+                                                                        ),
+                                                                }),
+                                                            )
+                                                        }
+                                                    />
+
+                                                    <InputError
+                                                        className="mt-2 text-xl"
+                                                        message={errors.price}
+                                                    />
+                                                </div>
+                                            </div>
+                                            <div className="flex items-center justify-center gap-5">
+                                                <div className="w-full">
+                                                    <InputLabel
+                                                        className={`text-xl ${
+                                                            errors.quantity
+                                                                ? 'text-red-500'
+                                                                : ''
+                                                        }`}
+                                                        htmlFor={`quantity-${index}`}
+                                                        value="Quantità"
+                                                    />
+
+                                                    <TextInput
+                                                        id={`quantity-${index}`}
+                                                        name={`variations[${index}].quantity`}
+                                                        form="productForm"
+                                                        value={
+                                                            variation.quantity
+                                                        }
+                                                        className={`mt-1 block w-full ${
+                                                            errors.quantity
+                                                                ? 'border-red-500'
+                                                                : ''
+                                                        } focus:bg-emerald-200`}
+                                                        autoComplete="off"
+                                                        onChange={(event) =>
+                                                            setData(
+                                                                (prevData) => ({
+                                                                    ...prevData,
+                                                                    variations:
+                                                                        prevData.variations.map(
+                                                                            (
+                                                                                v,
+                                                                                i,
+                                                                            ) =>
+                                                                                i ===
+                                                                                index
+                                                                                    ? {
+                                                                                          ...v,
+                                                                                          quantity:
+                                                                                              event
+                                                                                                  .target
+                                                                                                  .value,
+                                                                                      }
+                                                                                    : v,
+                                                                        ),
+                                                                }),
+                                                            )
+                                                        }
+                                                    />
+
+                                                    <InputError
+                                                        className="mt-2 text-xl"
+                                                        message={
+                                                            errors.quantity
+                                                        }
+                                                    />
+                                                </div>
+                                                <div className="w-full">
+                                                    <InputLabel
+                                                        className={`text-xl ${
+                                                            errors.cost
+                                                                ? 'text-red-500'
+                                                                : ''
+                                                        }`}
+                                                        htmlFor={`cost-${index}`}
+                                                        value="Costo"
+                                                    />
+
+                                                    <TextInput
+                                                        id={`cost-${index}`}
+                                                        name={`variations[${index}].cost`}
+                                                        form="productForm"
+                                                        value={variation.cost}
+                                                        className={`mt-1 block w-full ${
+                                                            errors.cost
+                                                                ? 'border-red-500'
+                                                                : ''
+                                                        } focus:bg-emerald-200`}
+                                                        autoComplete="off"
+                                                        onChange={(event) =>
+                                                            setData(
+                                                                (prevData) => ({
+                                                                    ...prevData,
+                                                                    variations:
+                                                                        prevData.variations.map(
+                                                                            (
+                                                                                v,
+                                                                                i,
+                                                                            ) =>
+                                                                                i ===
+                                                                                index
+                                                                                    ? {
+                                                                                          ...v,
+                                                                                          cost: event
+                                                                                              .target
+                                                                                              .value,
+                                                                                      }
+                                                                                    : v,
+                                                                        ),
+                                                                }),
+                                                            )
+                                                        }
+                                                    />
+
+                                                    <InputError
+                                                        className="mt-2 text-xl"
+                                                        message={errors.cost}
+                                                    />
+                                                </div>
+                                            </div>
+                                            <hr class="h-px border-2 bg-gray-700" />
+                                        </div>
+                                    ))}
+                            </div>
                         </div>
                         <div className="w-full rounded-b-lg shadow-lg">
                             <div className="rounded-t-lg bg-violet-200 p-5 ">

@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use Inertia\Inertia;
 use App\Models\Product;
 use App\Models\Category;
+use App\Models\Variation;
 use App\Actions\Product\LinkOption;
 use Chefhasteeth\Pipeline\Pipeline;
 use App\Http\Controllers\Controller;
@@ -89,6 +90,7 @@ class ProductController extends Controller
      */
     public function edit(Product $product)
     {
+        $product->load('options', 'variations');
         $categories = Category::all();
 
         return Inertia::render('Admin/ProductForm', compact('product', 'categories'));
@@ -99,41 +101,12 @@ class ProductController extends Controller
      */
     public function update(UpdateProductRequest $request, Product $product)
     {
-        return Pipeline::make()
-            ->send(
-                $request
-                    ->safe()
-                    ->collect()
-                    ->filter(),
-            )
-            ->through([
-                function ($passable) use ($product) {
-                    $product->update(
-                        $passable->except(['images', 'options'])->all(),
-                    );
-
-                    return $product;
-                },
-                fn($passable) => LinkOption::run(
-                    $passable,
-                    $request->validated('options'),
-                ),
-                fn($passable) => collect($request->validated('images'))->each(
-                    function ($image) use ($passable) {
-                        Cloudinary::upload($image->getRealPath())->getSecurePath();
-                        $passable->attachMedia($image);
-                    }
-                ),
-            ])
-            ->then(
-                fn() => to_route('admin.products.index')->with('message', 'Prodotto aggiornato con successo')
-            );
-        /*$product->update(
+        $product->update(
             $request
                 ->safe()
                 ->collect()
                 ->filter(fn($value) => !is_null($value))
-                ->except(['images'])
+                ->except(['images', 'variations'])
                 ->all()
         );
 
@@ -153,7 +126,23 @@ class ProductController extends Controller
             }
         }
 
-        return to_route('admin.products.index')->with('message', 'Prodotto aggiornato con successo');*/
+        $variationsData = $request->validated('variations', []);
+
+        foreach ($variationsData as $variationData) {
+            $variation = Variation::find($variationData['id']);
+
+            if ($variation) {
+                $variation->update([
+                    'variant' => $variationData['variant'],
+                    'sku' => $variationData['sku'],
+                    'price' => $variationData['price'],
+                    'quantity' => $variationData['quantity'],
+                    'cost' => $variationData['cost'],
+                ]);
+            }
+        }
+
+        return to_route('admin.products.index')->with('message', 'Prodotto aggiornato con successo');
     }
 
     /**

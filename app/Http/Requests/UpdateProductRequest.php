@@ -40,6 +40,7 @@ class UpdateProductRequest extends FormRequest
             'seo_title' => 'sometimes|nullable|string|max:255',
             'seo_description' => 'sometimes|nullable|string|max:255',
             'seo_keywords' => 'sometimes|nullable|string|max:255',
+            'variations' => 'nullable|array',
         ];
     }
 
