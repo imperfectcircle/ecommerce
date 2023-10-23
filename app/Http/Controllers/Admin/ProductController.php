@@ -114,13 +114,7 @@ class ProductController extends Controller
 
         if ($images !== null) {
             foreach ($images as $image) {
-                Cloudinary::upload($image->getRealPath(), [
-                    'transformation' => [
-                        'width' => '700',
-                        'quality' => 'auto',
-                        'crop' => 'scale',
-                    ]
-                ])->getSecurePath();
+                Cloudinary::upload($image->getRealPath())->getSecurePath();
 
                 $product->attachMedia($image);
             }

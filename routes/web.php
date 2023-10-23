@@ -14,6 +14,7 @@ use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\Admin\UserPermissionController;
 use App\Http\Controllers\Admin\UserRoleController;
 use App\Http\Controllers\Admin\ProductController;
+use App\Http\Controllers\Admin\SettingsController;
 use App\Http\Controllers\Admin\VariationController;
 
 /*
@@ -48,6 +49,7 @@ Route::prefix('admin')
         Route::resource('products', ProductController::class);
         Route::resource('options', OptionController::class);
         Route::resource('variations', VariationController::class);
+        Route::get('/settings', [SettingsController::class, 'index'])->name('settings.index');
         Route::post('/users/{user}/roles', UserRoleController::class)->name('users.roles.assign');
         Route::post('/users/{user}/permissions', UserPermissionController::class)->name('users.permissions.assign');
         Route::post('/roles/{role}/permissions', RolePermissionController::class)->name('roles.permissions.assign');

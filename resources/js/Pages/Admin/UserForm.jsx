@@ -43,8 +43,6 @@ export default function UserForm({ auth, user, permissions, roles }) {
         post(route('admin.users.store'));
     };
 
-    console.log(user);
-
     return (
         <AuthenticatedLayout user={auth.user}>
             {user ? (

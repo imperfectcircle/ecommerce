@@ -11,6 +11,7 @@ import {
     AiOutlineCopyrightCircle,
 } from 'react-icons/ai';
 import { BiCategoryAlt } from 'react-icons/bi';
+import { GiSettingsKnobs } from 'react-icons/gi';
 import { useMediaQuery } from 'react-responsive';
 import { usePopUpVisibility } from '@/Hooks/usePopUpVisibility';
 import { AnimatePresence, motion } from 'framer-motion';
@@ -114,6 +115,13 @@ export default function AuthenticatedLayout({ user, children }) {
                             <FaBoxes className="mr-2" />
                             Prodotti
                         </Link>
+                        <Link
+                            className="flex items-center transition-all duration-150 hover:font-bold"
+                            href={route('admin.settings.index')}
+                        >
+                            <GiSettingsKnobs className="mr-2" />
+                            Impostazioni
+                        </Link>
                     </div>
                 </aside>
 
@@ -172,6 +180,13 @@ export default function AuthenticatedLayout({ user, children }) {
                 >
                     <FaBoxes className="mr-2" />
                     Prodotti
+                </Link>
+                <Link
+                    className="flex w-full items-center justify-center pt-10 text-2xl text-white transition-all duration-150 hover:bg-white hover:font-bold hover:text-black"
+                    href={route('admin.settings.index')}
+                >
+                    <GiSettingsKnobs className="mr-2" />
+                    Impostazioni
                 </Link>
             </div>
         </>

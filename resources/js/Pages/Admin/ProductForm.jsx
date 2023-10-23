@@ -92,8 +92,6 @@ export default function ProductForm({ auth, product, categories }) {
         post(route('admin.products.store'));
     };
 
-    console.log(errors);
-
     return (
         <AuthenticatedLayout user={auth.user}>
             {product ? (
