@@ -27,7 +27,7 @@ export default function SettingsIndex({ auth }) {
                     body={
                         'Impostazioni generali come: Titolo, Descrizione, Indirizzo...'
                     }
-                    url={'#'}
+                    url={route('admin.settings.general.show')}
                 >
                     <BsGear />
                 </SettingCard>

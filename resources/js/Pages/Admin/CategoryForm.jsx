@@ -86,17 +86,21 @@ export default function CategoryForm({ auth, category, categories }) {
                         {category
                             ? categories.map((parent) =>
                                   parent.id === category.parent_id ? (
-                                      <option selected value={parent.id}>
+                                      <option
+                                          key={parent.id}
+                                          selected
+                                          value={parent.id}
+                                      >
                                           {parent.name}
                                       </option>
                                   ) : (
-                                      <option value={parent.id}>
+                                      <option key={parent.id} value={parent.id}>
                                           {parent.name}
                                       </option>
                                   ),
                               )
                             : categories.map((category) => (
-                                  <option value={category.id}>
+                                  <option key={category.id} value={category.id}>
                                       {category.name}
                                   </option>
                               ))}

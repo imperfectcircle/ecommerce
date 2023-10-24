@@ -1,6 +1,6 @@
 import { Link } from '@inertiajs/react';
 
-export default function SettingCard({ title, body, url, children }) {
+export default function SettingCard({ title, body, url = '', children }) {
     return (
         <div className="flex w-full shadow-lg">
             <div className="flex items-center justify-center rounded-bl-lg rounded-tl-lg bg-violet-300 p-6 text-8xl text-white">

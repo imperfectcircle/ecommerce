@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Admin\BrandController;
 use App\Http\Controllers\Admin\CategoryController;
+use App\Http\Controllers\Admin\GeneralSettingsController;
 use Inertia\Inertia;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Foundation\Application;
@@ -50,6 +51,8 @@ Route::prefix('admin')
         Route::resource('options', OptionController::class);
         Route::resource('variations', VariationController::class);
         Route::get('/settings', [SettingsController::class, 'index'])->name('settings.index');
+        Route::get('/settings/general', [GeneralSettingsController::class, 'show'])->name('settings.general.show');
+        Route::patch('/settings/general', [GeneralSettingsController::class, 'update'])->name('settings.general.update');
         Route::post('/users/{user}/roles', UserRoleController::class)->name('users.roles.assign');
         Route::post('/users/{user}/permissions', UserPermissionController::class)->name('users.permissions.assign');
         Route::post('/roles/{role}/permissions', RolePermissionController::class)->name('roles.permissions.assign');
