@@ -19,7 +19,7 @@ export default function SettingsIndex({ auth }) {
                     <BiHomeAlt2 /> Dashboard
                 </Link>
                 {'>'}
-                <p>Lista Categorie</p>
+                <p>Impostazioni</p>
             </div>
             <div className="mt-5 grid grid-cols-1 space-y-5 md:grid-cols-2 md:gap-10">
                 <SettingCard
@@ -36,7 +36,7 @@ export default function SettingsIndex({ auth }) {
                     body={
                         'Impostazioni legali come: Termini del Servizio e Informativa sulla Privacy'
                     }
-                    url={'#'}
+                    url={route('admin.settings.legal.show')}
                 >
                     <MdOutlinePrivacyTip />
                 </SettingCard>

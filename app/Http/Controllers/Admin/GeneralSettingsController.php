@@ -17,6 +17,6 @@ class GeneralSettingsController extends Controller
         $settings->fill($request->validated());
         $settings->save();
 
-        return to_route('admin.settings.general.show')->with('message', 'Impostazioni aggiornate con successo');
+        return to_route('admin.settings.index')->with('message', 'Impostazioni Generali aggiornate con successo');
     }
 }

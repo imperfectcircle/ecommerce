@@ -5,6 +5,7 @@ import InputGroup from '@/Components/InputGroup';
 import PrimaryButton from '@/Components/PrimaryButton';
 import InputLabel from '@/Components/InputLabel';
 import InputError from '@/Components/InputError';
+import TextareaGroup from '@/Components/TextareaGroup';
 
 export default function GeneralSettings({ auth, settings }) {
     const { data, setData, patch, processing, errors } = useForm({
@@ -152,35 +153,16 @@ export default function GeneralSettings({ auth, settings }) {
                         }
                     />
                 </div>
-                <div className="mt-4">
-                    <InputLabel
-                        className={`text-xl ${
-                            errors.google_analytics_code ? 'text-red-500' : ''
-                        }`}
-                        htmlFor="google_analytics_code"
-                        value="Codice Google Analytics"
-                    />
-
-                    <textarea
-                        rows="3"
-                        className={`mt-1 block w-full resize-none rounded-md text-xl shadow-lg ${
-                            errors.google_analytics_code ? 'border-red-500' : ''
-                        } focus:bg-emerald-200`}
-                        name="google_analytics_code"
-                        id="google_analytics_code"
-                        value={data.google_analytics_code}
-                        onChange={(ev) =>
-                            setData('google_analytics_code', ev.target.value)
-                        }
-                    >
-                        {data.google_analytics_code}
-                    </textarea>
-
-                    <InputError
-                        className="mt-2 text-xl"
-                        message={errors.google_analytics_code}
-                    />
-                </div>
+                <TextareaGroup
+                    className="mt-4"
+                    name="google_analytics_code"
+                    label="Codice Google Analytics"
+                    value={data.google_analytics_code}
+                    error={errors.google_analytics_code}
+                    onChange={(event) =>
+                        setData('google_analytics_code', event.target.value)
+                    }
+                />
                 <div className="mt-4 text-center">
                     <PrimaryButton
                         className="ml-4 mt-5 bg-sky-400 px-6 py-3 text-[20px] hover:bg-sky-500"

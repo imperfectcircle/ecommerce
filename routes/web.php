@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Route;
 use Illuminate\Foundation\Application;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\Admin\HomeController;
+use App\Http\Controllers\Admin\LegalSettingsController;
 use App\Http\Controllers\Admin\OptionController;
 use App\Http\Controllers\Admin\RoleController;
 use App\Http\Controllers\Admin\RolePermissionController;
@@ -53,6 +54,8 @@ Route::prefix('admin')
         Route::get('/settings', [SettingsController::class, 'index'])->name('settings.index');
         Route::get('/settings/general', [GeneralSettingsController::class, 'show'])->name('settings.general.show');
         Route::patch('/settings/general', [GeneralSettingsController::class, 'update'])->name('settings.general.update');
+        Route::get('/settings/legal', [LegalSettingsController::class, 'show'])->name('settings.legal.show');
+        Route::patch('/settings/legal', [LegalSettingsController::class, 'update'])->name('settings.legal.update');
         Route::post('/users/{user}/roles', UserRoleController::class)->name('users.roles.assign');
         Route::post('/users/{user}/permissions', UserPermissionController::class)->name('users.permissions.assign');
         Route::post('/roles/{role}/permissions', RolePermissionController::class)->name('roles.permissions.assign');
