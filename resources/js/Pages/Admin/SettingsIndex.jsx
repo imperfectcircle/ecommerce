@@ -45,7 +45,7 @@ export default function SettingsIndex({ auth }) {
                     body={
                         'Impostazioni dei Social Network: I tuoi account social'
                     }
-                    url={'#'}
+                    url={route('admin.settings.social.show')}
                 >
                     <TiSocialAtCircular />
                 </SettingCard>

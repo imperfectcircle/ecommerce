@@ -17,6 +17,7 @@ use App\Http\Controllers\Admin\UserPermissionController;
 use App\Http\Controllers\Admin\UserRoleController;
 use App\Http\Controllers\Admin\ProductController;
 use App\Http\Controllers\Admin\SettingsController;
+use App\Http\Controllers\Admin\SocialSettingsController;
 use App\Http\Controllers\Admin\VariationController;
 
 /*
@@ -56,6 +57,8 @@ Route::prefix('admin')
         Route::patch('/settings/general', [GeneralSettingsController::class, 'update'])->name('settings.general.update');
         Route::get('/settings/legal', [LegalSettingsController::class, 'show'])->name('settings.legal.show');
         Route::patch('/settings/legal', [LegalSettingsController::class, 'update'])->name('settings.legal.update');
+        Route::get('/settings/social', [SocialSettingsController::class, 'show'])->name('settings.social.show');
+        Route::patch('/settings/social', [SocialSettingsController::class, 'update'])->name('settings.social.update');
         Route::post('/users/{user}/roles', UserRoleController::class)->name('users.roles.assign');
         Route::post('/users/{user}/permissions', UserPermissionController::class)->name('users.permissions.assign');
         Route::post('/roles/{role}/permissions', RolePermissionController::class)->name('roles.permissions.assign');
